@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>HDFC Bank Key Fact Statement (KFS) Loan Calculator</title>
-  <meta name="description" content="Official-grade HDFC Bank Key Fact Statement (KFS) Loan Amortisation Calculator with live schedules, rate sensitivity impact analysis, fee structure, IRR-based Effective APR, and prepayment simulator.">
+  <meta name="description" content="Mobile-first HDFC Bank Key Fact Statement (KFS) Loan Amortisation Calculator. Live EMI, rate impact, fee structure, and prepayment optimizer.">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 
   <!-- Chart.js from cdnjs -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
@@ -18,312 +18,324 @@
     :root {
       --hdfc-blue: #004c8f;
       --hdfc-blue-dark: #002e6e;
-      --hdfc-blue-light: #e6f0fa;
-      --hdfc-blue-gradient: linear-gradient(135deg, #004c8f 0%, #002752 100%);
+      --hdfc-blue-light: #eef5fc;
+      --hdfc-blue-gradient: linear-gradient(135deg, #004c8f 0%, #00224d 100%);
       --hdfc-red: #ed1c24;
-      --hdfc-red-dark: #c20e15;
       --hdfc-red-light: #fef2f2;
-      
-      --bg-slate: #f4f7fb;
+
+      --bg-slate: #f6f8fb;
       --card-bg: #ffffff;
       --card-border: #e2e8f0;
-      --card-hover-border: #cbd5e1;
-      
+
       --text-main: #0f172a;
       --text-muted: #64748b;
       --text-subtle: #94a3b8;
-      
+
       --accent-emerald: #059669;
       --accent-emerald-light: #ecfdf5;
       --accent-amber: #d97706;
       --accent-amber-light: #fffbeb;
-      --accent-indigo: #4f46e5;
-      --accent-indigo-light: #eef2ff;
 
-      --radius-sm: 6px;
-      --radius-md: 10px;
-      --radius-lg: 14px;
-      --radius-xl: 18px;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
 
-      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
-      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
-      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 10px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 25px rgba(0, 76, 143, 0.12);
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       background-color: var(--bg-slate);
       color: var(--text-main);
-      line-height: 1.5;
+      line-height: 1.45;
       -webkit-font-smoothing: antialiased;
-      padding-bottom: 60px;
+      padding-bottom: 40px;
+      overflow-x: hidden;
     }
 
-    /* Top Brand Navigation */
-    .top-navbar {
+    /* Mobile Container */
+    .mobile-app-wrapper {
+      width: 100%;
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 0 14px;
+    }
+
+    /* Top Brand Bar */
+    .app-header {
       background: #ffffff;
       border-bottom: 1px solid var(--card-border);
       position: sticky;
       top: 0;
       z-index: 100;
       box-shadow: var(--shadow-sm);
+      padding: 10px 0;
     }
 
-    .nav-container {
-      max-width: 1440px;
-      margin: 0 auto;
-      padding: 12px 24px;
+    .header-content {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 16px;
+      gap: 10px;
     }
 
     .brand-group {
       display: flex;
       align-items: center;
-      gap: 14px;
-    }
-
-    .hdfc-logo-badge {
-      display: flex;
-      align-items: center;
       gap: 10px;
-      text-decoration: none;
     }
 
-    .logo-box {
-      width: 42px;
-      height: 42px;
+    .logo-badge {
+      width: 36px;
+      height: 36px;
       background: var(--hdfc-blue-gradient);
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-sm);
       display: flex;
       align-items: center;
       justify-content: center;
       color: white;
       font-weight: 800;
-      font-size: 1.25rem;
+      font-size: 0.95rem;
       letter-spacing: -0.5px;
-      box-shadow: 0 4px 10px rgba(0, 76, 143, 0.25);
       position: relative;
       overflow: hidden;
+      flex-shrink: 0;
     }
 
-    .logo-box::after {
+    .logo-badge::after {
       content: '';
       position: absolute;
       bottom: 0;
       left: 0;
       right: 0;
-      height: 4px;
+      height: 3px;
       background: var(--hdfc-red);
     }
 
-    .brand-title-wrap h1 {
-      font-size: 1.15rem;
+    .brand-text h1 {
+      font-size: 0.98rem;
       font-weight: 800;
       color: var(--hdfc-blue-dark);
       letter-spacing: -0.3px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      line-height: 1.2;
     }
 
-    .brand-title-wrap p {
-      font-size: 0.75rem;
+    .brand-text p {
+      font-size: 0.68rem;
       color: var(--text-muted);
-      font-weight: 500;
-    }
-
-    .rbi-badge {
-      background: #f1f5f9;
-      color: #334155;
-      font-size: 0.7rem;
       font-weight: 600;
-      padding: 2px 8px;
-      border-radius: 999px;
-      border: 1px solid #cbd5e1;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
     }
 
-    .header-actions {
+    .header-quick-actions {
       display: flex;
       align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
+      gap: 6px;
     }
 
-    .preset-pill {
-      background: #f8fafc;
-      border: 1px solid #cbd5e1;
-      padding: 6px 12px;
-      border-radius: 999px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--hdfc-blue);
+    .icon-action-btn {
+      background: #f1f5f9;
+      border: 1px solid var(--card-border);
+      padding: 6px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--hdfc-blue-dark);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      transition: all 0.2s ease;
+      gap: 4px;
+      text-decoration: none;
     }
 
-    .preset-pill:hover {
-      background: var(--hdfc-blue-light);
-      border-color: var(--hdfc-blue);
-      transform: translateY(-1px);
-    }
-
-    .preset-pill.active {
-      background: var(--hdfc-blue);
-      color: #ffffff;
-      border-color: var(--hdfc-blue);
-    }
-
-    .btn-action-sm {
-      background: #ffffff;
-      border: 1px solid var(--card-border);
-      padding: 7px 14px;
+    /* Disclaimer strip */
+    .disclaimer-banner {
+      background: #eff6ff;
+      border: 1px solid #dbeafe;
       border-radius: var(--radius-sm);
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--text-main);
+      padding: 6px 10px;
+      font-size: 0.7rem;
+      color: #1e40af;
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      line-height: 1.35;
+      white-space: normal;
+      word-break: break-word;
+    }
+
+    /* Quick Preset Chips */
+    .presets-scroll-row {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 2px 0 8px 0;
+      margin-bottom: 8px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .presets-scroll-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .preset-chip {
+      background: #ffffff;
+      border: 1.5px solid var(--card-border);
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #334155;
       cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
       display: inline-flex;
       align-items: center;
       gap: 6px;
       transition: all 0.15s ease;
     }
 
-    .btn-action-sm:hover {
-      background: #f8fafc;
-      border-color: #94a3b8;
-    }
-
-    .btn-action-primary {
+    .preset-chip.active {
       background: var(--hdfc-blue);
       color: #ffffff;
-      border: 1px solid var(--hdfc-blue);
+      border-color: var(--hdfc-blue);
+      box-shadow: 0 3px 8px rgba(0, 76, 143, 0.25);
     }
 
-    .btn-action-primary:hover {
-      background: var(--hdfc-blue-dark);
-      border-color: var(--hdfc-blue-dark);
-    }
-
-    /* Notice Banner */
-    .disclaimer-strip {
-      background: #eff6ff;
-      border-bottom: 1px solid #bfdbfe;
-      padding: 7px 24px;
-      font-size: 0.76rem;
-      color: #1e40af;
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .disclaimer-strip strong {
-      color: #1e3a8a;
-    }
-
-    /* Main Container Grid */
-    .app-layout {
-      max-width: 1440px;
-      margin: 20px auto;
-      padding: 0 20px;
-      display: grid;
-      grid-template-columns: 460px 1fr;
-      gap: 24px;
-      align-items: start;
-    }
-
-    @media (max-width: 1080px) {
-      .app-layout {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* Card Panels */
-    .panel-card {
-      background: var(--card-bg);
+    /* Hero Live EMI Card */
+    .hero-emi-card {
+      background: var(--hdfc-blue-gradient);
+      color: #ffffff;
       border-radius: var(--radius-lg);
-      border: 1px solid var(--card-border);
-      box-shadow: var(--shadow-sm);
-      padding: 22px;
-      margin-bottom: 20px;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      padding: 18px 16px;
+      box-shadow: var(--shadow-lg);
+      margin-bottom: 14px;
+      position: relative;
+      overflow: hidden;
     }
 
-    .panel-card:hover {
-      border-color: var(--card-hover-border);
-    }
-
-    .card-header {
+    .hero-top-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 18px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid #f1f5f9;
+      margin-bottom: 4px;
     }
 
-    .card-header-title {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--hdfc-blue-dark);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .card-header-badge {
+    .hero-label {
       font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #bfdbfe;
+    }
+
+    .hero-badge {
+      background: rgba(255, 255, 255, 0.18);
+      font-size: 0.68rem;
       font-weight: 600;
       padding: 2px 8px;
       border-radius: 999px;
-      background: #f1f5f9;
-      color: #475569;
+      color: #ffffff;
     }
 
-    /* Form Inputs */
-    .form-group {
-      margin-bottom: 18px;
+    .hero-emi-value {
+      font-size: 2.15rem;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: -1px;
+      line-height: 1.15;
+      color: #ffffff;
+      margin: 2px 0 10px 0;
     }
 
-    .form-label-row {
+    .hero-stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.18);
+      padding: 10px 12px;
+      border-radius: var(--radius-md);
+      margin-top: 10px;
+    }
+
+    .stat-item {
+      text-align: left;
+    }
+
+    .stat-lbl {
+      font-size: 0.65rem;
+      color: #93c5fd;
+      font-weight: 600;
+      margin-bottom: 2px;
+      white-space: nowrap;
+    }
+
+    .stat-val {
+      font-size: 0.85rem;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      color: #ffffff;
+      white-space: nowrap;
+    }
+
+    /* Core Inputs Card */
+    .card-box {
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--card-border);
+      padding: 16px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .card-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .card-title-text {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--hdfc-blue-dark);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Input elements styled for touch */
+    .field-group {
+      margin-bottom: 16px;
+    }
+
+    .field-label-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 6px;
     }
 
-    .form-label {
-      font-size: 0.82rem;
-      font-weight: 600;
+    .field-label {
+      font-size: 0.8rem;
+      font-weight: 700;
       color: #334155;
-      display: flex;
-      align-items: center;
-      gap: 4px;
     }
 
-    .form-label-desc {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-    }
-
-    .input-wrap {
+    .input-touch-wrap {
       position: relative;
       display: flex;
       align-items: center;
@@ -331,1787 +343,952 @@
 
     .input-prefix {
       position: absolute;
-      left: 12px;
+      left: 14px;
       font-weight: 700;
-      color: var(--text-muted);
-      font-size: 0.9rem;
+      color: #64748b;
+      font-size: 1rem;
       pointer-events: none;
     }
 
     .input-suffix {
       position: absolute;
-      right: 12px;
-      font-weight: 600;
-      color: var(--text-muted);
+      right: 14px;
+      font-weight: 700;
+      color: #64748b;
       font-size: 0.82rem;
       pointer-events: none;
     }
 
-    .form-control {
+    .touch-input {
       width: 100%;
-      height: 42px;
-      padding: 8px 12px;
-      padding-left: 28px;
+      height: 48px;
+      padding: 10px 14px;
+      padding-left: 32px;
       font-family: inherit;
-      font-size: 0.92rem;
-      font-weight: 600;
+      font-size: 1.05rem;
+      font-weight: 700;
       color: var(--text-main);
       background: #ffffff;
       border: 1.5px solid #cbd5e1;
       border-radius: var(--radius-md);
-      transition: all 0.2s ease;
       outline: none;
+      transition: all 0.15s ease;
     }
 
-    .form-control:focus {
+    .touch-input:focus {
       border-color: var(--hdfc-blue);
       box-shadow: 0 0 0 3px rgba(0, 76, 143, 0.12);
     }
 
-    .form-control.input-no-prefix {
-      padding-left: 12px;
+    .touch-input.no-prefix {
+      padding-left: 14px;
     }
 
-    .form-control.has-suffix {
-      padding-right: 48px;
+    .touch-input.has-suffix {
+      padding-right: 50px;
     }
 
-    .form-control.is-invalid {
+    .touch-input.is-invalid {
       border-color: var(--hdfc-red);
-      background-color: #fffbfa;
+      background: #fff8f8;
     }
 
-    .inline-error {
-      color: var(--hdfc-red);
-      font-size: 0.72rem;
-      font-weight: 600;
-      margin-top: 4px;
-      display: none;
-    }
-
-    .inline-error.active {
-      display: block;
-    }
-
-    .words-preview {
-      font-size: 0.73rem;
-      font-weight: 600;
-      color: var(--hdfc-blue);
-      margin-top: 4px;
+    .verbal-preview-strip {
       display: flex;
       justify-content: space-between;
+      align-items: center;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--hdfc-blue);
+      margin-top: 5px;
     }
 
-    /* Range slider */
-    .range-slider {
+    .range-slider-touch {
       width: 100%;
-      margin-top: 8px;
+      height: 24px;
       accent-color: var(--hdfc-blue);
+      margin-top: 6px;
       cursor: pointer;
     }
 
-    /* Pill Toggles */
-    .toggle-group {
+    /* Small pill switch */
+    .mini-switch-group {
       display: flex;
       background: #f1f5f9;
       padding: 3px;
-      border-radius: var(--radius-md);
-      gap: 3px;
+      border-radius: 999px;
+      gap: 2px;
     }
 
-    .toggle-btn {
-      flex: 1;
+    .mini-switch-btn {
       border: none;
       background: transparent;
-      padding: 5px 10px;
-      border-radius: var(--radius-sm);
-      font-size: 0.78rem;
-      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 700;
       color: #64748b;
       cursor: pointer;
-      transition: all 0.15s ease;
-      text-align: center;
     }
 
-    .toggle-btn.active {
+    .mini-switch-btn.active {
       background: #ffffff;
       color: var(--hdfc-blue);
       box-shadow: var(--shadow-sm);
     }
 
-    /* Rate Calculator Display Box */
-    .rate-formula-box {
-      background: linear-gradient(135deg, #f8fafc 0%, #eef6ff 100%);
-      border: 1.5px solid #bfdbfe;
-      border-radius: var(--radius-md);
-      padding: 12px 14px;
-      margin-top: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .rate-formula-label {
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: #1e40af;
-    }
-
-    .rate-formula-value {
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: var(--hdfc-blue-dark);
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    .rate-formula-sub {
-      font-size: 0.7rem;
-      color: #475569;
-      font-weight: 500;
-    }
-
-    /* Grid for side-by-side inputs */
-    .input-grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    /* Collapsible Accordion */
-    .accordion-toggle {
-      width: 100%;
+    /* Expandable details button */
+    .expand-link-btn {
       background: none;
       border: none;
-      padding: 10px 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.85rem;
+      color: var(--hdfc-blue);
+      font-size: 0.74rem;
       font-weight: 700;
-      color: #334155;
       cursor: pointer;
-      border-top: 1px solid #f1f5f9;
-      margin-top: 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 0;
+      margin-top: 4px;
     }
 
-    .accordion-content {
-      padding-top: 10px;
+    /* Segmented Mobile Views Navigation (Pill Tabs) */
+    .mobile-views-nav {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      margin-bottom: 14px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .mobile-views-nav::-webkit-scrollbar {
       display: none;
     }
 
-    .accordion-content.open {
+    .view-tab-btn {
+      padding: 8px 14px;
+      border-radius: var(--radius-md);
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: #475569;
+      border: 1px solid var(--card-border);
+      background: #ffffff;
+      white-space: nowrap;
+      cursor: pointer;
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .view-tab-btn.active {
+      background: var(--hdfc-blue);
+      color: #ffffff;
+      border-color: var(--hdfc-blue);
+      box-shadow: 0 2px 6px rgba(0, 76, 143, 0.2);
+    }
+
+    /* View Panel Cards */
+    .view-panel {
+      display: none;
+    }
+
+    .view-panel.active {
       display: block;
     }
 
-    /* KFS Validity Box */
-    .validity-info-pill {
-      background: #f0fdf4;
-      border: 1px solid #bbf7d0;
-      padding: 8px 12px;
-      border-radius: var(--radius-md);
-      font-size: 0.75rem;
-      color: #166534;
-      margin-top: 10px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    /* Fee Table in Form */
-    .table-responsive {
-      overflow-x: auto;
-      border-radius: var(--radius-md);
+    /* Comparison cards for Rate Sensitivity */
+    .sens-card {
+      background: #f8fafc;
       border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      margin-bottom: 10px;
     }
 
-    .styled-table {
-      width: 100%;
-      border-collapse: collapse;
+    .sens-card.highlight {
+      background: #fffbeb;
+      border-color: #fde68a;
+    }
+
+    .sens-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .sens-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .sens-badge.plus {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .sens-badge.minus {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .sens-badge.base {
+      background: #e2e8f0;
+      color: #334155;
+    }
+
+    .sens-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
       font-size: 0.78rem;
-      text-align: left;
     }
 
-    .styled-table th {
-      background: #f8fafc;
-      color: #475569;
-      font-weight: 700;
+    .sens-item {
+      background: #ffffff;
       padding: 8px 10px;
-      border-bottom: 1px solid var(--card-border);
-      white-space: nowrap;
-    }
-
-    .styled-table td {
-      padding: 6px 10px;
-      border-bottom: 1px solid #f1f5f9;
-      vertical-align: middle;
-    }
-
-    .styled-table tr:last-child td {
-      border-bottom: none;
-    }
-
-    .styled-table .table-input {
-      width: 100%;
-      height: 30px;
-      padding: 4px 8px;
-      font-family: inherit;
-      font-size: 0.8rem;
-      font-weight: 600;
-      border: 1px solid #cbd5e1;
       border-radius: var(--radius-sm);
-      text-align: right;
+      border: 1px solid #f1f5f9;
     }
 
-    .styled-table .table-input:focus {
-      border-color: var(--hdfc-blue);
-      outline: none;
+    .sens-item-label {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-bottom: 2px;
     }
 
-    .table-total-row {
-      background: #f8fafc;
-      font-weight: 700;
+    .sens-item-value {
+      font-size: 0.85rem;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
       color: var(--text-main);
     }
 
-    /* Checkbox & Switch */
-    .switch-label {
-      display: inline-flex;
+    .sens-item-sub {
+      font-size: 0.68rem;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    /* Simple Fee List */
+    .fee-row-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 0.8rem;
+    }
+
+    .fee-row-item:last-child {
+      border-bottom: none;
+    }
+
+    .fee-touch-input {
+      width: 100px;
+      height: 36px;
+      padding: 4px 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-align: right;
+      border: 1px solid #cbd5e1;
+      border-radius: var(--radius-sm);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Switch */
+    .switch-wrap {
+      display: flex;
       align-items: center;
       gap: 8px;
       font-size: 0.78rem;
-      font-weight: 600;
+      font-weight: 700;
       color: #334155;
       cursor: pointer;
-      user-select: none;
     }
 
-    .custom-switch {
+    .toggle-pill {
       position: relative;
-      width: 36px;
-      height: 20px;
+      width: 38px;
+      height: 22px;
       background: #cbd5e1;
       border-radius: 999px;
       transition: background 0.2s ease;
       flex-shrink: 0;
     }
 
-    .custom-switch::after {
+    .toggle-pill::after {
       content: '';
       position: absolute;
-      top: 2px;
-      left: 2px;
+      top: 3px;
+      left: 3px;
       width: 16px;
       height: 16px;
       background: white;
       border-radius: 50%;
       transition: transform 0.2s ease;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.2);
     }
 
-    input[type="checkbox"]:checked + .custom-switch {
+    input[type="checkbox"]:checked + .toggle-pill {
       background: var(--hdfc-blue);
     }
 
-    input[type="checkbox"]:checked + .custom-switch::after {
+    input[type="checkbox"]:checked + .toggle-pill::after {
       transform: translateX(16px);
     }
 
-    /* Prepayment Simulator Box */
-    .prepayment-card {
-      background: #fbfcfe;
-      border: 1.5px solid #e2e8f0;
-      border-radius: var(--radius-lg);
-      padding: 18px;
-      margin-top: 15px;
-    }
-
-    .prepayment-res-box {
-      background: #ffffff;
-      border: 1px solid #cbd5e1;
-      border-radius: var(--radius-md);
-      padding: 12px;
-      margin-top: 12px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-      gap: 10px;
-    }
-
-    .res-metric {
-      padding: 6px;
-    }
-
-    .res-metric-lbl {
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      font-weight: 600;
-    }
-
-    .res-metric-val {
-      font-size: 0.95rem;
-      font-weight: 800;
-      color: var(--hdfc-blue-dark);
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    .res-metric-val.saved {
-      color: var(--accent-emerald);
-    }
-
-    .prepay-note {
-      font-size: 0.72rem;
-      color: #475569;
-      background: #f1f5f9;
-      padding: 6px 10px;
-      border-radius: var(--radius-sm);
-      margin-top: 10px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    /* RIGHT COLUMN: Results Section */
-    .results-col {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    /* Top Summary KPI Cards Grid */
-    .kpi-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-    }
-
-    .kpi-card {
-      background: #ffffff;
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius-lg);
-      padding: 18px;
-      box-shadow: var(--shadow-sm);
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .kpi-card:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-    }
-
-    .kpi-card.hero-kpi {
-      background: var(--hdfc-blue-gradient);
-      color: #ffffff;
-      border-color: var(--hdfc-blue-dark);
-      box-shadow: 0 8px 20px rgba(0, 76, 143, 0.2);
-    }
-
-    .kpi-card.hero-kpi .kpi-label {
-      color: #93c5fd;
-    }
-
-    .kpi-card.hero-kpi .kpi-value {
-      color: #ffffff;
-    }
-
-    .kpi-card.hero-kpi .kpi-footnote {
-      color: #bfdbfe;
-    }
-
-    .kpi-label {
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .kpi-value {
-      font-size: 1.65rem;
-      font-weight: 800;
-      color: var(--text-main);
-      font-family: 'JetBrains Mono', monospace;
-      letter-spacing: -0.5px;
-      line-height: 1.2;
-    }
-
-    .kpi-footnote {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      margin-top: 6px;
-      font-weight: 500;
-    }
-
-    .kpi-bar {
-      height: 4px;
-      background: #e2e8f0;
-      border-radius: 999px;
-      margin-top: 8px;
-      overflow: hidden;
-    }
-
-    .kpi-bar-fill {
-      height: 100%;
-      border-radius: 999px;
-      transition: width 0.4s ease;
-    }
-
-    /* Section Tabs */
-    .section-tab-nav {
-      display: flex;
-      gap: 8px;
-      background: #ffffff;
-      padding: 6px;
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--card-border);
-      overflow-x: auto;
-    }
-
-    .tab-item-btn {
-      padding: 8px 16px;
-      border-radius: var(--radius-md);
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: #64748b;
-      border: none;
-      background: transparent;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      white-space: nowrap;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .tab-item-btn:hover {
-      color: var(--hdfc-blue);
-      background: #f8fafc;
-    }
-
-    .tab-item-btn.active {
-      background: var(--hdfc-blue);
-      color: #ffffff;
-      box-shadow: 0 2px 6px rgba(0, 76, 143, 0.25);
-    }
-
-    /* Charts Container */
-    .charts-grid {
-      display: grid;
-      grid-template-columns: 1.25fr 1fr;
-      gap: 20px;
-    }
-
-    @media (max-width: 900px) {
-      .charts-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .chart-box {
-      background: #ffffff;
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius-lg);
-      padding: 18px;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .chart-box-title {
-      font-size: 0.88rem;
-      font-weight: 700;
-      color: #334155;
-      margin-bottom: 14px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .chart-canvas-wrap {
-      position: relative;
-      flex: 1;
-      min-height: 240px;
-    }
-
-    /* Rate Sensitivity Table */
-    .rate-sensitivity-box {
-      background: #ffffff;
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius-lg);
-      padding: 20px;
-    }
-
-    .rate-sens-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-
-    .bps-input-wrap {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: #475569;
-    }
-
-    .bps-input {
-      width: 68px;
-      height: 32px;
-      padding: 4px 8px;
-      border: 1px solid #cbd5e1;
-      border-radius: var(--radius-sm);
-      font-weight: 700;
-      text-align: center;
-      font-size: 0.85rem;
-    }
-
-    .sens-table-wrap {
-      overflow-x: auto;
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius-md);
-    }
-
-    .sens-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.82rem;
-      text-align: right;
-    }
-
-    .sens-table th {
-      background: #f8fafc;
-      padding: 10px 12px;
-      color: #334155;
-      font-weight: 700;
-      border-bottom: 1px solid var(--card-border);
-      white-space: nowrap;
-    }
-
-    .sens-table th:first-child,
-    .sens-table td:first-child {
-      text-align: left;
-    }
-
-    .sens-table td {
-      padding: 10px 12px;
-      border-bottom: 1px solid #f1f5f9;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
-    }
-
-    .sens-table tr.current-rate-row {
-      background: #eff6ff;
-      font-weight: 700;
-    }
-
-    .sens-table tr.highlight-test-row {
-      background: #fefce8;
-      font-weight: 700;
-    }
-
-    .badge-bps {
-      display: inline-block;
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-size: 0.72rem;
-      font-weight: 700;
-    }
-
-    .badge-plus {
-      background: #fee2e2;
-      color: #991b1b;
-    }
-
-    .badge-minus {
-      background: #dcfce7;
-      color: #166534;
-    }
-
-    .badge-neutral {
-      background: #e2e8f0;
-      color: #334155;
-    }
-
-    /* Amortisation Schedule Table */
-    .schedule-panel {
-      background: #ffffff;
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius-lg);
-      padding: 20px;
-    }
-
-    .schedule-toolbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-
-    .schedule-controls-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .schedule-controls-right {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .schedule-table-container {
-      max-height: 520px;
+    /* Schedule Table Container */
+    .table-scroll-container {
+      max-height: 480px;
       overflow-y: auto;
       overflow-x: auto;
       border: 1px solid var(--card-border);
       border-radius: var(--radius-md);
-      position: relative;
+      -webkit-overflow-scrolling: touch;
     }
 
-    .schedule-table {
+    .compact-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       text-align: right;
+      white-space: nowrap;
     }
 
-    .schedule-table thead th {
+    .compact-table th {
       position: sticky;
       top: 0;
       background: #f8fafc;
-      color: #334155;
+      padding: 8px 10px;
       font-weight: 700;
-      padding: 10px 12px;
+      color: #475569;
       border-bottom: 2px solid var(--card-border);
-      z-index: 10;
-      white-space: nowrap;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      z-index: 2;
     }
 
-    .schedule-table th:first-child,
-    .schedule-table td:first-child {
-      text-align: center;
-      font-weight: 600;
-    }
-
-    .schedule-table th:nth-child(2),
-    .schedule-table td:nth-child(2) {
-      text-align: left;
-    }
-
-    .schedule-table td {
-      padding: 9px 12px;
+    .compact-table td {
+      padding: 8px 10px;
       border-bottom: 1px solid #f1f5f9;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.78rem;
-      color: #1e293b;
+      font-size: 0.74rem;
     }
 
-    .schedule-table tr:hover {
-      background: #f8fafc;
-    }
-
-    .schedule-table tr.row-0-highlight {
+    .compact-table tr.highlight-row {
       background: #fffbeb;
-      font-weight: 600;
+      font-weight: 700;
     }
 
-    .schedule-table tfoot td {
-      position: sticky;
-      bottom: 0;
-      background: #f1f5f9;
-      font-weight: 800;
-      padding: 10px 12px;
-      border-top: 2px solid var(--card-border);
-      z-index: 9;
-      color: var(--hdfc-blue-dark);
-    }
-
-    /* Pagination Bar */
-    .pagination-bar {
+    .pagination-controls-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 14px;
-      flex-wrap: wrap;
-      gap: 10px;
-      font-size: 0.8rem;
+      margin-top: 10px;
+      font-size: 0.72rem;
       color: var(--text-muted);
     }
 
-    .pagination-actions {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .page-btn {
+    .pag-btn {
       padding: 5px 10px;
       border: 1px solid var(--card-border);
       background: #ffffff;
       border-radius: var(--radius-sm);
-      font-size: 0.75rem;
-      font-weight: 600;
+      font-size: 0.72rem;
+      font-weight: 700;
       cursor: pointer;
-      color: #334155;
     }
 
-    .page-btn:disabled {
-      opacity: 0.5;
+    .pag-btn:disabled {
+      opacity: 0.4;
       cursor: not-allowed;
     }
 
-    .page-btn:hover:not(:disabled) {
-      background: #f8fafc;
-      border-color: #94a3b8;
-    }
-
-    /* Official KFS Statement Card */
-    .kfs-statement-sheet {
-      background: #ffffff;
-      border: 2px solid var(--hdfc-blue);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      margin-top: 10px;
-      box-shadow: var(--shadow-md);
+    /* Chart wrappers */
+    .chart-container-mobile {
       position: relative;
-    }
-
-    .kfs-sheet-banner {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      border-bottom: 2px solid var(--hdfc-blue-light);
-      padding-bottom: 16px;
-      margin-bottom: 16px;
-    }
-
-    .kfs-sheet-header h2 {
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: var(--hdfc-blue-dark);
-      letter-spacing: -0.3px;
-    }
-
-    .kfs-sheet-header p {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-    }
-
-    .kfs-meta-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 12px;
-      background: #f8fafc;
-      padding: 12px 16px;
-      border-radius: var(--radius-md);
-      margin-bottom: 20px;
-      font-size: 0.8rem;
-    }
-
-    .kfs-meta-item strong {
-      display: block;
-      color: #475569;
-      font-size: 0.7rem;
-      text-transform: uppercase;
-    }
-
-    .kfs-meta-item span {
-      font-weight: 700;
-      color: var(--hdfc-blue-dark);
-    }
-
-    .kfs-official-table {
+      height: 220px;
       width: 100%;
-      border-collapse: collapse;
-      font-size: 0.82rem;
-      margin-bottom: 20px;
+      margin: 10px 0;
     }
 
-    .kfs-official-table th {
-      background: #f1f5f9;
-      padding: 10px 14px;
-      text-align: left;
-      font-weight: 700;
-      color: #334155;
-      border: 1px solid var(--card-border);
+    /* KFS Sheet Compact */
+    .kfs-sheet-mobile {
+      background: #ffffff;
+      border: 1.5px solid var(--hdfc-blue);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      margin-top: 8px;
     }
 
-    .kfs-official-table td {
-      padding: 9px 14px;
-      border: 1px solid var(--card-border);
-      color: #1e293b;
-    }
-
-    .kfs-official-table tr.highlight-kfs-row {
-      background: #f8fafc;
-      font-weight: 700;
-    }
-
-    .kfs-official-table td.val-cell {
-      font-family: 'JetBrains Mono', monospace;
-      font-weight: 700;
-      text-align: right;
-    }
-
-    .kfs-stamp-strip {
+    .kfs-mobile-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-top: 1px solid var(--card-border);
-      padding-top: 14px;
-      font-size: 0.75rem;
-      color: var(--text-muted);
+      padding: 8px 0;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 0.78rem;
     }
 
-    /* Print Stylesheet */
+    .kfs-mobile-row.bold-row {
+      font-weight: 800;
+      background: #f8fafc;
+      padding: 8px 6px;
+      border-radius: 4px;
+    }
+
+    .kfs-mobile-row span:last-child {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+    }
+
+    /* Print styling */
     @media print {
       body {
         background: #ffffff;
-        color: #000000;
-        padding-bottom: 0;
       }
-      .top-navbar, .disclaimer-strip, .preset-pill, .btn-action-sm, .schedule-toolbar, .pagination-bar, .section-tab-nav, #panel-inputs {
+      .app-header, .presets-scroll-row, .mobile-views-nav, .card-box {
         display: none !important;
       }
-      .app-layout {
+      .view-panel {
         display: block !important;
-        max-width: 100% !important;
-        margin: 0 !important;
-        padding: 0 !important;
-      }
-      .kfs-statement-sheet {
-        box-shadow: none !important;
-        border: 1px solid #000000 !important;
-        page-break-after: always;
-      }
-      .schedule-table-container {
-        max-height: none !important;
-        overflow: visible !important;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- Top Navigation Bar -->
-  <header class="top-navbar">
-    <div class="nav-container">
-      <div class="brand-group">
-        <a href="#" class="hdfc-logo-badge" title="HDFC Bank Retail Lending">
-          <div class="logo-box">HDFC</div>
-          <div class="brand-title-wrap">
-            <h1>KEY FACT STATEMENT (KFS) <span class="rbi-badge">RBI Compliant</span></h1>
-            <p>Harmonized Retail Loan Amortisation & APR Calculator</p>
+  <!-- Top Mobile Brand Header -->
+  <header class="app-header">
+    <div class="mobile-app-wrapper">
+      <div class="header-content">
+        <div class="brand-group">
+          <div class="logo-badge">HDFC</div>
+          <div class="brand-text">
+            <h1>KFS Calculator</h1>
+            <p>Harmonized Retail Loan Statement</p>
           </div>
-        </a>
-      </div>
+        </div>
 
-      <div class="header-actions">
-        <!-- Presets -->
-        <button type="button" class="preset-pill active" id="btn-preset-home" title="Load Home Loan ₹2 Cr at 7.75% for 30 years">
-          <span>🏠 Home Loan ₹2 Cr</span>
-          <span style="font-size: 0.7rem; opacity: 0.85;">(360m @ 7.75%)</span>
-        </button>
-
-        <button type="button" class="preset-pill" id="btn-preset-insurance" title="Load Insurance Premium Funding ₹15.96L at 7.25% for 20 years">
-          <span>🛡️ Insurance Funding ₹15.96L</span>
-          <span style="font-size: 0.7rem; opacity: 0.85;">(240m @ 7.25%)</span>
-        </button>
-
-        <!-- CSV & Print buttons -->
-        <button type="button" class="btn-action-sm" id="btn-export-csv" title="Download Full Amortisation Schedule as CSV">
-          <span>📥 Export CSV</span>
-        </button>
-        <button type="button" class="btn-action-sm btn-action-primary" id="btn-print-kfs" title="Print or Save Official KFS PDF">
-          <span>🖨️ Print KFS</span>
-        </button>
+        <div class="header-quick-actions">
+          <button type="button" class="icon-action-btn" id="btn-quick-csv" title="Download Amortisation Schedule CSV">
+            <span>📥 CSV</span>
+          </button>
+          <button type="button" class="icon-action-btn" id="btn-quick-print" title="Print Key Fact Statement">
+            <span>🖨️ KFS</span>
+          </button>
+        </div>
       </div>
     </div>
   </header>
 
-  <!-- Notice Disclaimer Banner -->
-  <div class="disclaimer-strip">
-    <span>ℹ️ <strong>Disclaimer:</strong> Illustrative calculator, not an official bank document. Calculations strictly conform to HDFC Bank KFS formulas & RBI Master Directions.</span>
-  </div>
+  <main class="mobile-app-wrapper" style="margin-top: 10px;">
 
-  <!-- Main Dual-Column Layout -->
-  <main class="app-layout">
-    
-    <!-- LEFT COLUMN: Input Configuration Panel -->
-    <section class="panel-inputs" id="panel-inputs">
-      
-      <!-- Card: Loan Parameters -->
-      <div class="panel-card">
-        <div class="card-header">
-          <div class="card-header-title">
-            <span>⚙️ Loan Parameters</span>
-          </div>
-          <span class="card-header-badge">Core Details</span>
+    <!-- Disclaimer Banner -->
+    <div class="disclaimer-banner">
+      <span>ℹ️</span>
+      <span><strong>Illustrative Calculator:</strong> Based on official HDFC Bank KFS & RBI disclosure formulas.</span>
+    </div>
+
+    <!-- Quick Presets Carousel -->
+    <div class="presets-scroll-row">
+      <button type="button" class="preset-chip active" id="chip-preset-home">
+        <span>🏠 Home Loan ₹2 Cr</span>
+        <span style="opacity: 0.8; font-size: 0.7rem;">(360m @ 7.75%)</span>
+      </button>
+
+      <button type="button" class="preset-chip" id="chip-preset-insurance">
+        <span>🛡️ Insurance Funding ₹15.96L</span>
+        <span style="opacity: 0.8; font-size: 0.7rem;">(240m @ 7.25%)</span>
+      </button>
+    </div>
+
+    <!-- Hero Live EMI Card -->
+    <div class="hero-emi-card">
+      <div class="hero-top-row">
+        <span class="hero-label">Monthly EMI</span>
+        <span class="hero-badge">Bank Rounded</span>
+      </div>
+
+      <div class="hero-emi-value" id="disp-hero-emi">₹ 1,43,283</div>
+
+      <div class="hero-stats-grid">
+        <div class="stat-item">
+          <div class="stat-lbl">Total Interest</div>
+          <div class="stat-val" id="disp-hero-interest" style="color: #fef08a;">₹ 3.16 Cr</div>
         </div>
 
-        <!-- Sanctioned Loan Amount -->
-        <div class="form-group">
-          <div class="form-label-row">
-            <label class="form-label" for="input-loan-amount">Sanctioned Loan Amount</label>
-            <span class="form-label-desc">₹ Principal (P)</span>
-          </div>
-          <div class="input-wrap">
-            <span class="input-prefix">₹</span>
-            <input type="number" id="input-loan-amount" class="form-control" value="20000000" min="10000" max="500000000" step="10000" placeholder="e.g. 20000000">
-          </div>
-          <div class="words-preview">
-            <span id="preview-loan-amount">₹ 2,00,00,000 (2.00 Crore)</span>
-            <span style="color: var(--text-muted); font-size: 0.7rem;">Min ₹10k - Max ₹50Cr</span>
-          </div>
-          <div class="inline-error" id="error-loan-amount">Please enter a valid positive loan amount.</div>
-          <input type="range" class="range-slider" id="slider-loan-amount" min="100000" max="50000000" step="50000" value="20000000">
+        <div class="stat-item">
+          <div class="stat-lbl">Total Payable</div>
+          <div class="stat-val" id="disp-hero-payment">₹ 5.16 Cr</div>
         </div>
 
-        <!-- Loan Term with Months/Years toggle -->
-        <div class="form-group">
-          <div class="form-label-row">
-            <label class="form-label" for="input-loan-tenure">Loan Term</label>
-            <div class="toggle-group" style="width: 140px;">
-              <button type="button" class="toggle-btn active" id="toggle-tenure-months">Months</button>
-              <button type="button" class="toggle-btn" id="toggle-tenure-years">Years</button>
-            </div>
-          </div>
-          <div class="input-wrap">
-            <input type="number" id="input-loan-tenure" class="form-control input-no-prefix has-suffix" value="360" min="1" max="480" step="1">
-            <span class="input-suffix" id="tenure-unit-label">Months</span>
-          </div>
-          <div class="words-preview">
-            <span id="preview-tenure-calc">360 Months = 30.0 Years</span>
-            <span style="color: var(--text-muted); font-size: 0.7rem;">Allowed: 1 – 480 Months</span>
-          </div>
-          <div class="inline-error" id="error-loan-tenure">Tenure must be between 1 and 480 months (up to 40 years).</div>
-          <input type="range" class="range-slider" id="slider-loan-tenure" min="12" max="480" step="6" value="360">
+        <div class="stat-item">
+          <div class="stat-lbl">Effective APR</div>
+          <div class="stat-val" id="disp-hero-apr" style="color: #6ee7b7;">7.75%</div>
         </div>
+      </div>
+    </div>
 
-        <!-- Interest Rate Section: Direct Input with optional B+S Split -->
-        <div class="form-group">
-          <div class="form-label-row">
-            <label class="form-label" for="input-interest-rate">Interest Rate (% p.a.)</label>
-            <div class="toggle-group" style="width: 175px;">
-              <button type="button" class="toggle-btn active" id="toggle-rate-direct" title="Input annual interest rate directly">Direct Rate</button>
-              <button type="button" class="toggle-btn" id="toggle-rate-split" title="Input Benchmark + Spread split">B + S Split</button>
-            </div>
-          </div>
+    <!-- Core Loan Inputs Card (Clean, Touch-friendly) -->
+    <div class="card-box">
+      <div class="card-title-row">
+        <span class="card-title-text">⚙️ Loan Inputs</span>
+        <span style="font-size: 0.7rem; font-weight: 600; color: var(--text-muted);">Live Sync</span>
+      </div>
 
-          <!-- Direct Rate Input (Primary & Default) -->
-          <div id="rate-direct-container">
-            <div class="input-wrap">
-              <input type="number" id="input-interest-rate" class="form-control input-no-prefix has-suffix" value="7.75" min="0.1" max="30" step="0.05" placeholder="e.g. 7.75">
-              <span class="input-suffix">% p.a.</span>
-            </div>
-            <div class="words-preview">
-              <span id="preview-rate-monthly">Monthly rate: 0.6458% per month</span>
-              <span style="color: var(--text-muted); font-size: 0.7rem;">Allowed: 0.1% – 30%</span>
-            </div>
-            <div class="inline-error" id="error-interest-rate">Please enter a valid interest rate greater than 0%.</div>
-            <input type="range" class="range-slider" id="slider-interest-rate" min="1" max="25" step="0.05" value="7.75">
-          </div>
+      <!-- 1. Sanctioned Loan Amount -->
+      <div class="field-group">
+        <div class="field-label-row">
+          <label class="field-label" for="inp-loan-amount">Loan Amount (₹)</label>
+          <span style="font-size: 0.7rem; font-weight: 600; color: var(--hdfc-blue);" id="disp-loan-crores">2.00 Crore</span>
+        </div>
+        <div class="input-touch-wrap">
+          <span class="input-prefix">₹</span>
+          <input type="number" id="inp-loan-amount" class="touch-input" value="20000000" min="10000" step="50000" inputmode="numeric">
+        </div>
+        <div class="verbal-preview-strip">
+          <span id="preview-verbal-amount">₹ 2,00,00,000 (2.00 Crore)</span>
+        </div>
+        <input type="range" class="range-slider-touch" id="range-loan-amount" min="100000" max="50000000" step="50000" value="20000000">
+      </div>
 
-          <!-- Benchmark + Spread Split (Optional) -->
-          <div id="rate-split-container" style="display: none; margin-top: 10px;">
-            <div class="input-grid-2">
-              <div class="form-group" style="margin-bottom: 0;">
-                <div class="form-label-row">
-                  <label class="form-label" for="input-benchmark-rate" style="font-size: 0.75rem;">Benchmark (B)</label>
-                </div>
-                <div class="input-wrap">
-                  <input type="number" id="input-benchmark-rate" class="form-control input-no-prefix has-suffix" value="5.25" min="0.1" max="30" step="0.05">
-                  <span class="input-suffix">% p.a.</span>
-                </div>
-                <div class="inline-error" id="error-benchmark">Must be > 0%</div>
-              </div>
-
-              <div class="form-group" style="margin-bottom: 0;">
-                <div class="form-label-row">
-                  <label class="form-label" for="input-spread-rate" style="font-size: 0.75rem;">Spread (S)</label>
-                </div>
-                <div class="input-wrap">
-                  <input type="number" id="input-spread-rate" class="form-control input-no-prefix has-suffix" value="2.50" min="0" max="25" step="0.05">
-                  <span class="input-suffix">% p.a.</span>
-                </div>
-                <div class="inline-error" id="error-spread">Must be >= 0%</div>
-              </div>
-            </div>
+      <!-- 2. Loan Tenure -->
+      <div class="field-group">
+        <div class="field-label-row">
+          <label class="field-label" for="inp-loan-tenure">Loan Term</label>
+          <div class="mini-switch-group">
+            <button type="button" class="mini-switch-btn active" id="btn-tenure-months">Months</button>
+            <button type="button" class="mini-switch-btn" id="btn-tenure-years">Years</button>
           </div>
         </div>
+        <div class="input-touch-wrap">
+          <input type="number" id="inp-loan-tenure" class="touch-input no-prefix has-suffix" value="360" min="1" max="480" step="1" inputmode="numeric">
+          <span class="input-suffix" id="lbl-tenure-suffix">Months</span>
+        </div>
+        <div class="verbal-preview-strip">
+          <span id="preview-tenure-text">360 Months = 30.0 Years</span>
+          <span style="color: var(--text-muted); font-size: 0.68rem;">1 – 480 Months</span>
+        </div>
+        <input type="range" class="range-slider-touch" id="range-loan-tenure" min="12" max="480" step="6" value="360">
+      </div>
 
-        <!-- Final Rate Formula Display -->
-        <div class="rate-formula-box">
-          <div>
-            <div class="rate-formula-label" id="rate-formula-title">Annual Interest Rate (R)</div>
-            <div class="rate-formula-sub" id="rate-formula-math">Direct Rate: 7.75% p.a.</div>
+      <!-- 3. Direct Annual Interest Rate -->
+      <div class="field-group" style="margin-bottom: 6px;">
+        <div class="field-label-row">
+          <label class="field-label" for="inp-interest-rate">Interest Rate (% p.a.)</label>
+          <span style="font-size: 0.7rem; font-weight: 700; color: var(--accent-emerald);" id="disp-monthly-rate-badge">0.6458%/mo</span>
+        </div>
+        <div class="input-touch-wrap">
+          <input type="number" id="inp-interest-rate" class="touch-input no-prefix has-suffix" value="7.75" min="0.1" max="30" step="0.05" inputmode="decimal">
+          <span class="input-suffix">% p.a.</span>
+        </div>
+        <div class="verbal-preview-strip">
+          <span id="preview-rate-text">Annual Rate: 7.75%</span>
+          <button type="button" class="expand-link-btn" id="btn-toggle-bs-split">
+            <span id="txt-bs-toggle">Show B+S Split ▾</span>
+          </button>
+        </div>
+        <input type="range" class="range-slider-touch" id="range-interest-rate" min="1" max="25" step="0.05" value="7.75">
+
+        <!-- Collapsible Benchmark & Spread -->
+        <div id="collapsible-bs-split" style="display: none; background: #f8fafc; padding: 10px; border-radius: var(--radius-sm); margin-top: 8px; border: 1px dashed #cbd5e1;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <div>
+              <label style="font-size: 0.68rem; font-weight: 700; color: #475569;">Benchmark (B %)</label>
+              <input type="number" id="inp-benchmark-rate" class="touch-input no-prefix" style="height: 38px; font-size: 0.9rem;" value="5.25" step="0.05">
+            </div>
+            <div>
+              <label style="font-size: 0.68rem; font-weight: 700; color: #475569;">Spread (S %)</label>
+              <input type="number" id="inp-spread-rate" class="touch-input no-prefix" style="height: 38px; font-size: 0.9rem;" value="2.50" step="0.05">
+            </div>
           </div>
-          <div class="rate-formula-value" id="disp-final-rate">7.75%</div>
+          <div style="font-size: 0.68rem; color: var(--text-muted); margin-top: 4px;">Rate (R) = Benchmark + Spread</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Segmented Views Navigation (Mobile Tab Pills) -->
+    <div class="mobile-views-nav" role="tablist">
+      <button type="button" class="view-tab-btn active" data-target="view-rate-impact">📉 Rate Impact</button>
+      <button type="button" class="view-tab-btn" data-target="view-charts">📊 Charts</button>
+      <button type="button" class="view-tab-btn" data-target="view-fees">💳 Fees & APR</button>
+      <button type="button" class="view-tab-btn" data-target="view-prepay">⚡ Prepayment</button>
+      <button type="button" class="view-tab-btn" data-target="view-schedule">🗓️ Schedule</button>
+      <button type="button" class="view-tab-btn" data-target="view-kfs-sheet">📑 KFS Sheet</button>
+    </div>
+
+    <!-- VIEW 1: Rate Impact Analysis -->
+    <div class="view-panel active" id="view-rate-impact">
+      <div class="card-box">
+        <div class="card-title-row">
+          <span class="card-title-text">📉 Rate Sensitivity Analysis</span>
+          <div style="display: flex; align-items: center; gap: 4px; font-size: 0.72rem;">
+            <span>Delta:</span>
+            <input type="number" id="inp-custom-bps" value="25" min="5" max="500" step="5" style="width: 50px; height: 28px; text-align: center; border: 1px solid #cbd5e1; border-radius: 4px; font-weight: 700;">
+            <span>bps</span>
+          </div>
+        </div>
+
+        <div id="rate-sens-cards-container">
+          <!-- Dynamically populated rate comparison cards -->
+        </div>
+
+        <div style="font-size: 0.68rem; color: var(--text-muted); margin-top: 8px;">
+          Option A keeps tenure fixed and recalculates EMI. Option B keeps EMI fixed and computes revised EPIs via $n' = \left\lceil \frac{-\ln(1 - P \cdot r' / \text{EMI})}{\ln(1 + r')} \right\rceil$.
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 2: Visual Charts -->
+    <div class="view-panel" id="view-charts">
+      <div class="card-box">
+        <div class="card-title-row">
+          <span class="card-title-text">🥧 Payment Composition</span>
+        </div>
+        <div class="chart-container-mobile">
+          <canvas id="chart-mobile-composition"></canvas>
         </div>
       </div>
 
-      <!-- Card: Optional Borrower & KFS Metadata -->
-      <div class="panel-card">
-        <div class="card-header">
-          <div class="card-header-title">
-            <span>📋 Borrower & KFS Dates</span>
-          </div>
-          <span class="card-header-badge">Disclosure Info</span>
+      <div class="card-box">
+        <div class="card-title-row">
+          <span class="card-title-text">📈 Balance Curve Over Time</span>
         </div>
-
-        <div class="input-grid-2">
-          <div class="form-group">
-            <label class="form-label" for="input-borrower-name">Borrower Name</label>
-            <input type="text" id="input-borrower-name" class="form-control input-no-prefix" value="Arnav Potale" placeholder="Applicant Name">
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="select-loan-type">Loan Facility Type</label>
-            <select id="select-loan-type" class="form-control input-no-prefix" style="font-weight: 600;">
-              <option value="Home Loan" selected>Housing Loan (Floating)</option>
-              <option value="Insurance Funding">Insurance Premium Funding</option>
-              <option value="Plot Loan">Plot Purchase Loan</option>
-              <option value="Loan Against Property">Loan Against Property (LAP)</option>
-              <option value="Personal Loan">Personal Loan</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="input-grid-2">
-          <div class="form-group">
-            <label class="form-label" for="input-kfs-date">KFS Issue Date</label>
-            <input type="date" id="input-kfs-date" class="form-control input-no-prefix">
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="input-first-emi-date">First EMI Due Date</label>
-            <input type="date" id="input-first-emi-date" class="form-control input-no-prefix">
-          </div>
-        </div>
-
-        <!-- KFS Validity Display (Issue Date + 3 working days) -->
-        <div class="validity-info-pill">
-          <span>⏳</span>
-          <div>
-            <strong>KFS Offer Validity:</strong> <span id="disp-kfs-validity">Loading...</span>
-            <div style="font-size: 0.68rem; opacity: 0.85;">(Issue date + 3 working days, excluding weekends)</div>
-          </div>
+        <div class="chart-container-mobile">
+          <canvas id="chart-mobile-amortisation"></canvas>
         </div>
       </div>
+    </div>
 
-      <!-- Card: Upfront Fees & Charges Table -->
-      <div class="panel-card">
-        <div class="card-header">
-          <div class="card-header-title">
-            <span>💳 Upfront Fee Schedule</span>
-          </div>
-          <label class="switch-label" title="Enable 18% GST on Processing Fees payable to lender">
-            <input type="checkbox" id="chk-gst-toggle" style="display: none;">
-            <div class="custom-switch"></div>
-            <span>Apply 18% GST</span>
+    <!-- VIEW 3: Fees & Effective APR -->
+    <div class="view-panel" id="view-fees">
+      <div class="card-box">
+        <div class="card-title-row">
+          <span class="card-title-text">💳 Upfront Fee Schedule</span>
+          <label class="switch-wrap">
+            <input type="checkbox" id="chk-gst" style="display: none;">
+            <div class="toggle-pill"></div>
+            <span>+18% GST</span>
           </label>
         </div>
 
-        <div class="table-responsive">
-          <table class="styled-table" id="fee-table">
+        <div>
+          <div class="fee-row-item">
+            <div>
+              <div style="font-weight: 700;">Processing Fees (Lender)</div>
+              <div style="font-size: 0.68rem; color: var(--text-muted);">One-time payable to bank</div>
+            </div>
+            <input type="number" class="fee-touch-input" id="fee-inp-proc" value="9000" step="500">
+          </div>
+
+          <div class="fee-row-item">
+            <div>
+              <div style="font-weight: 700;">CERSAI Registration (3rd Party)</div>
+              <div style="font-size: 0.68rem; color: var(--text-muted);">Statutory registration fee</div>
+            </div>
+            <input type="number" class="fee-touch-input" id="fee-inp-cersai" value="100" step="50">
+          </div>
+
+          <div class="fee-row-item" id="gst-row-mobile" style="display: none; background: #fffbeb; padding: 8px; border-radius: 6px;">
+            <div style="font-weight: 700; color: #92400e;">18% GST on Processing Fees</div>
+            <div style="font-weight: 700; color: #92400e; font-family: 'JetBrains Mono', monospace;" id="disp-gst-val">₹ 1,620</div>
+          </div>
+
+          <div class="fee-row-item" style="border-top: 2px solid var(--card-border); margin-top: 6px; padding-top: 10px;">
+            <div style="font-weight: 800; font-size: 0.9rem; color: var(--hdfc-blue-dark);">Total Upfront Fees</div>
+            <div style="font-weight: 800; font-size: 1rem; color: var(--hdfc-blue-dark); font-family: 'JetBrains Mono', monospace;" id="disp-fees-total">₹ 9,100</div>
+          </div>
+
+          <div class="fee-row-item">
+            <div style="font-weight: 700; color: var(--text-muted);">Net Disbursed ($P - \text{Fees}$)</div>
+            <div style="font-weight: 700; font-family: 'JetBrains Mono', monospace;" id="disp-net-disbursed">₹ 1,99,90,900</div>
+          </div>
+
+          <div class="fee-row-item">
+            <div style="font-weight: 700; color: var(--accent-emerald);">Effective APR (IRR on Net)</div>
+            <div style="font-weight: 800; color: var(--accent-emerald); font-size: 0.95rem; font-family: 'JetBrains Mono', monospace;" id="disp-effective-apr-tab">7.75%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 4: Part-Prepayment Simulator -->
+    <div class="view-panel" id="view-prepay">
+      <div class="card-box">
+        <div class="card-title-row">
+          <span class="card-title-text">⚡ Prepayment Simulator</span>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="inp-prepay-amount">Lump-sum Prepayment (₹)</label>
+          <div class="input-touch-wrap">
+            <span class="input-prefix">₹</span>
+            <input type="number" id="inp-prepay-amount" class="touch-input" value="1000000" step="50000">
+          </div>
+          <div class="verbal-preview-strip">
+            <span id="preview-prepay-words">₹ 10,00,000 (10 Lakh)</span>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="inp-prepay-month">At Instalment Month</label>
+          <div class="input-touch-wrap">
+            <input type="number" id="inp-prepay-month" class="touch-input no-prefix has-suffix" value="24" min="1" max="480">
+            <span class="input-suffix">Month</span>
+          </div>
+          <div class="verbal-preview-strip">
+            <span id="preview-prepay-year">After 2.0 Years (Instalment #24)</span>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Prepayment Strategy</label>
+          <div class="mini-switch-group" style="margin-top: 4px;">
+            <button type="button" class="mini-switch-btn active" id="btn-strat-tenure">Reduce Tenure (Same EMI)</button>
+            <button type="button" class="mini-switch-btn" id="btn-strat-emi">Reduce EMI (Same Term)</button>
+          </div>
+        </div>
+
+        <!-- Simulation Results Highlight Box -->
+        <div style="background: #ecfdf5; border: 1.5px solid #a7f3d0; border-radius: var(--radius-md); padding: 14px; margin-top: 10px;">
+          <div style="font-size: 0.7rem; font-weight: 700; color: #047857; text-transform: uppercase;">Interest Savings</div>
+          <div style="font-size: 1.5rem; font-weight: 800; color: #065f46; font-family: 'JetBrains Mono', monospace;" id="disp-sim-savings">₹ 63,61,433</div>
+          <div style="margin-top: 6px; font-size: 0.8rem; font-weight: 700; color: #064e3b;" id="disp-sim-impact">Tenure Cut: 51 Months (4.3 yrs)</div>
+          <div style="font-size: 0.72rem; color: #065f46; margin-top: 2px;" id="disp-sim-secondary">New Total Tenor: 309 Months</div>
+        </div>
+
+        <div style="font-size: 0.68rem; color: var(--text-muted); margin-top: 10px; background: #f8fafc; padding: 6px 10px; border-radius: 6px;">
+          <strong>RBI Notice:</strong> Nil foreclosure/prepayment penalty for floating-rate retail loans to individual borrowers.
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 5: Amortisation Schedule -->
+    <div class="view-panel" id="view-schedule">
+      <div class="card-box">
+        <div class="card-title-row">
+          <span class="card-title-text">🗓️ Amortisation Schedule</span>
+          <div class="mini-switch-group">
+            <button type="button" class="mini-switch-btn active" id="btn-sched-0">Row 0 (Bank)</button>
+            <button type="button" class="mini-switch-btn" id="btn-sched-1">Row 1</button>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <div style="display: flex; align-items: center; gap: 6px; font-size: 0.72rem;">
+            <span>Rows:</span>
+            <select id="sel-page-size" style="padding: 3px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 0.72rem;">
+              <option value="12">12 (1 Year)</option>
+              <option value="24">24 (2 Years)</option>
+              <option value="60">60 (5 Years)</option>
+              <option value="360" selected>All Rows</option>
+            </select>
+          </div>
+
+          <button type="button" class="icon-action-btn" id="btn-download-csv-tab">
+            <span>📥 Download CSV</span>
+          </button>
+        </div>
+
+        <!-- Table Container with Horizontal Scroll -->
+        <div class="table-scroll-container">
+          <table class="compact-table" id="schedule-table">
             <thead>
               <tr>
-                <th>Fee Head</th>
-                <th>Type</th>
-                <th style="text-align: right;">To Lender (A)</th>
-                <th style="text-align: right;">To 3rd Party (B)</th>
-                <th style="text-align: right;">Total</th>
+                <th style="text-align: center;">#</th>
+                <th>Due Date</th>
+                <th>Opening (₹)</th>
+                <th>Principal (₹)</th>
+                <th>Interest (₹)</th>
+                <th>Instalment (₹)</th>
+                <th>Closing (₹)</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>Processing Fees</td>
-                <td><span class="badge-neutral" style="font-size: 0.68rem; padding: 1px 4px;">One-time</span></td>
-                <td><input type="number" class="table-input" id="fee-proc-lender" value="9000" min="0" step="500"></td>
-                <td><input type="number" class="table-input" id="fee-proc-third" value="0" min="0" step="500"></td>
-                <td style="text-align: right; font-weight: 700;" id="fee-proc-total">₹ 9,000</td>
-              </tr>
-              <tr>
-                <td>Insurance Charges</td>
-                <td><span class="badge-neutral" style="font-size: 0.68rem; padding: 1px 4px;">One-time</span></td>
-                <td><input type="number" class="table-input" id="fee-ins-lender" value="0" min="0" step="500"></td>
-                <td><input type="number" class="table-input" id="fee-ins-third" value="0" min="0" step="500"></td>
-                <td style="text-align: right; font-weight: 700;" id="fee-ins-total">₹ 0</td>
-              </tr>
-              <tr>
-                <td>Administrative Fees</td>
-                <td><span class="badge-neutral" style="font-size: 0.68rem; padding: 1px 4px;">One-time</span></td>
-                <td><input type="number" class="table-input" id="fee-admin-lender" value="0" min="0" step="500"></td>
-                <td><input type="number" class="table-input" id="fee-admin-third" value="0" min="0" step="500"></td>
-                <td style="text-align: right; font-weight: 700;" id="fee-admin-total">₹ 0</td>
-              </tr>
-              <tr>
-                <td>CERSAI Registration</td>
-                <td><span class="badge-neutral" style="font-size: 0.68rem; padding: 1px 4px;">One-time</span></td>
-                <td><input type="number" class="table-input" id="fee-cersai-lender" value="0" min="0" step="50"></td>
-                <td><input type="number" class="table-input" id="fee-cersai-third" value="100" min="0" step="50"></td>
-                <td style="text-align: right; font-weight: 700;" id="fee-cersai-total">₹ 100</td>
-              </tr>
-              <tr>
-                <td>Any Other Fees</td>
-                <td><span class="badge-neutral" style="font-size: 0.68rem; padding: 1px 4px;">One-time</span></td>
-                <td><input type="number" class="table-input" id="fee-other-lender" value="0" min="0" step="500"></td>
-                <td><input type="number" class="table-input" id="fee-other-third" value="0" min="0" step="500"></td>
-                <td style="text-align: right; font-weight: 700;" id="fee-other-total">₹ 0</td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr class="table-total-row" id="gst-display-row" style="display: none; background: #fffbeb; color: #92400e;">
-                <td colspan="2">GST (18% on Processing Fee)</td>
-                <td style="text-align: right;" id="gst-lender-amt">₹ 1,620</td>
-                <td style="text-align: right;">₹ 0</td>
-                <td style="text-align: right;" id="gst-total-amt">₹ 1,620</td>
-              </tr>
-              <tr class="table-total-row">
-                <td colspan="2">Total Upfront Fees</td>
-                <td style="text-align: right; color: var(--hdfc-blue-dark);" id="total-fees-lender">₹ 9,000</td>
-                <td style="text-align: right; color: var(--hdfc-blue-dark);" id="total-fees-third">₹ 100</td>
-                <td style="text-align: right; color: var(--hdfc-blue-dark); font-size: 0.85rem;" id="grand-total-fees">₹ 9,100</td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
-
-        <div style="margin-top: 10px; font-size: 0.73rem; color: var(--text-muted); display: flex; justify-content: space-between;">
-          <span>Net Disbursed = P - Total Fees:</span>
-          <strong style="color: var(--hdfc-blue-dark);" id="disp-net-disbursed">₹ 1,99,90,900</strong>
-        </div>
-      </div>
-
-      <!-- Card: Part-Prepayment Simulator -->
-      <div class="panel-card">
-        <div class="card-header">
-          <div class="card-header-title">
-            <span>⚡ Part-Prepayment Simulator</span>
-          </div>
-          <span class="card-header-badge">ROI Optimizer</span>
-        </div>
-
-        <div class="input-grid-2">
-          <div class="form-group">
-            <label class="form-label" for="input-prepay-amount">Lump-sum Amount</label>
-            <div class="input-wrap">
-              <span class="input-prefix">₹</span>
-              <input type="number" id="input-prepay-amount" class="form-control" value="1000000" min="10000" step="50000">
-            </div>
-            <div class="words-preview">
-              <span id="preview-prepay-amount">₹ 10,00,000 (10 Lakh)</span>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="input-prepay-month">At Instalment Month</label>
-            <div class="input-wrap">
-              <input type="number" id="input-prepay-month" class="form-control input-no-prefix has-suffix" value="24" min="1" max="360" step="1">
-              <span class="input-suffix">Month</span>
-            </div>
-            <div class="words-preview">
-              <span id="preview-prepay-timing">After 2.0 Years</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Prepayment Strategy</label>
-          <div class="toggle-group" style="margin-top: 4px;">
-            <button type="button" class="toggle-btn active" id="btn-strat-reduce-tenure">Reduce Tenure (Keep EMI Same)</button>
-            <button type="button" class="toggle-btn" id="btn-strat-reduce-emi">Reduce Monthly EMI (Keep Tenure)</button>
-          </div>
-        </div>
-
-        <!-- Simulator Result Metrics -->
-        <div class="prepayment-res-box">
-          <div class="res-metric">
-            <div class="res-metric-lbl">Interest Saved</div>
-            <div class="res-metric-val saved" id="sim-interest-saved">₹ 63,61,433</div>
-          </div>
-          <div class="res-metric">
-            <div class="res-metric-lbl" id="sim-impact-label">Tenure Reduced</div>
-            <div class="res-metric-val" id="sim-impact-val">51 Months</div>
-          </div>
-          <div class="res-metric">
-            <div class="res-metric-lbl" id="sim-secondary-label">Revised Tenure</div>
-            <div class="res-metric-val" id="sim-secondary-val">309 Months (25.8 yrs)</div>
-          </div>
-        </div>
-
-        <div class="prepay-note">
-          <span>📜</span>
-          <span><strong>RBI Mandate:</strong> Nil prepayment charges for floating-rate individual home/retail loans.</span>
-        </div>
-      </div>
-
-    </section>
-
-    <!-- RIGHT COLUMN: Dashboard & Live Outputs -->
-    <section class="results-col">
-      
-      <!-- Top KPI Summary Cards -->
-      <div class="kpi-grid">
-        <!-- Monthly EMI Card -->
-        <div class="kpi-card hero-kpi">
-          <div class="kpi-label">
-            <span>Equated Monthly Instalment</span>
-            <span>🏦</span>
-          </div>
-          <div class="kpi-value" id="kpi-emi">₹ 1,43,283</div>
-          <div class="kpi-footnote">Rounded to integer rupee per bank sheet</div>
-          <div class="kpi-bar">
-            <div class="kpi-bar-fill" style="width: 100%; background: #ffffff;"></div>
-          </div>
-        </div>
-
-        <!-- Total Interest Card -->
-        <div class="kpi-card">
-          <div class="kpi-label">
-            <span>Total Interest Payable</span>
-            <span style="color: var(--accent-amber);">📈</span>
-          </div>
-          <div class="kpi-value" style="color: var(--accent-amber);" id="kpi-total-interest">₹ 3,15,81,066</div>
-          <div class="kpi-footnote" id="kpi-interest-ratio">Interest-to-Principal: 157.9%</div>
-          <div class="kpi-bar">
-            <div class="kpi-bar-fill" id="kpi-bar-interest" style="width: 61%; background: var(--accent-amber);"></div>
-          </div>
-        </div>
-
-        <!-- Total Payment Card -->
-        <div class="kpi-card">
-          <div class="kpi-label">
-            <span>Total Payment (P + Int)</span>
-            <span style="color: var(--hdfc-blue);">💰</span>
-          </div>
-          <div class="kpi-value" style="color: var(--hdfc-blue-dark);" id="kpi-total-payment">₹ 5,15,81,066</div>
-          <div class="kpi-footnote" id="kpi-payment-breakdown">₹ 2.00 Cr Principal + ₹ 3.16 Cr Int</div>
-          <div class="kpi-bar">
-            <div class="kpi-bar-fill" style="width: 100%; background: var(--hdfc-blue);"></div>
-          </div>
-        </div>
-
-        <!-- Effective APR (IRR) Card -->
-        <div class="kpi-card">
-          <div class="kpi-label">
-            <span>Effective APR (Incl. Fees)</span>
-            <span style="color: var(--accent-emerald);">⚖️</span>
-          </div>
-          <div class="kpi-value" style="color: var(--accent-emerald);" id="kpi-effective-apr">7.75%</div>
-          <div class="kpi-footnote" id="kpi-apr-nominal">Sheet APR: 7.75% • IRR on net disbursed</div>
-          <div class="kpi-bar">
-            <div class="kpi-bar-fill" style="width: 78%; background: var(--accent-emerald);"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Navigation Tabs for Views -->
-      <nav class="section-tab-nav" aria-label="Results navigation">
-        <button type="button" class="tab-item-btn active" data-tab="tab-overview">📊 Visual Analytics</button>
-        <button type="button" class="tab-item-btn" data-tab="tab-rate-impact">📉 Rate Change Sensitivity (BPS)</button>
-        <button type="button" class="tab-item-btn" data-tab="tab-kfs-statement">📑 Official KFS Statement</button>
-        <button type="button" class="tab-item-btn" data-tab="tab-schedule">🗓️ Amortisation Schedule</button>
-      </nav>
-
-      <!-- TAB 1: Visual Analytics (Charts) -->
-      <div class="tab-content-panel" id="tab-overview">
-        <div class="charts-grid">
-          
-          <!-- Balance Amortisation Chart -->
-          <div class="chart-box">
-            <div class="chart-box-title">
-              <span>📉 Amortisation Curve Over Time</span>
-              <span class="badge-neutral" style="font-size: 0.7rem;">Balance & Cumulative Interest</span>
-            </div>
-            <div class="chart-canvas-wrap">
-              <canvas id="chart-amortisation"></canvas>
-            </div>
-          </div>
-
-          <!-- Outflow Split Doughnut Chart -->
-          <div class="chart-box">
-            <div class="chart-box-title">
-              <span>🥧 Total Payment Composition</span>
-              <span class="badge-neutral" style="font-size: 0.7rem;">Principal vs Interest vs Fees</span>
-            </div>
-            <div class="chart-canvas-wrap">
-              <canvas id="chart-composition"></canvas>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- TAB 2: Rate Change Impact Table -->
-      <div class="tab-content-panel" id="tab-rate-impact" style="display: none;">
-        <div class="rate-sensitivity-box">
-          <div class="rate-sens-header">
-            <div>
-              <h3 style="font-size: 1rem; font-weight: 800; color: var(--hdfc-blue-dark);">Rate-Change Impact Analysis</h3>
-              <p style="font-size: 0.75rem; color: var(--text-muted);">Evaluation of interest rate revisions under floating rate benchmark adjustments</p>
-            </div>
-            <div class="bps-input-wrap">
-              <label for="input-custom-bps">Delta BPS:</label>
-              <input type="number" id="input-custom-bps" class="bps-input" value="25" min="5" max="500" step="5">
-              <span>bps (100 bps = 1.00%)</span>
-            </div>
-          </div>
-
-          <div class="sens-table-wrap">
-            <table class="sens-table" id="sens-table">
-              <thead>
-                <tr>
-                  <th>Rate Scenario</th>
-                  <th>Interest Rate (R')</th>
-                  <th>Option A: Fixed Tenure<br><span style="font-size: 0.7rem; font-weight: 500;">Revised EMI (n constant)</span></th>
-                  <th>Monthly Impact<br><span style="font-size: 0.7rem; font-weight: 500;">Diff vs Base EMI</span></th>
-                  <th>Option B: Fixed EMI<br><span style="font-size: 0.7rem; font-weight: 500;">Revised Tenure (EPIs)</span></th>
-                  <th>Tenure Impact<br><span style="font-size: 0.7rem; font-weight: 500;">Diff in Months</span></th>
-                </tr>
-              </thead>
-              <tbody id="sens-table-body">
-                <!-- Dynamically generated rows -->
-              </tbody>
-            </table>
-          </div>
-
-          <div style="margin-top: 14px; font-size: 0.75rem; color: #475569; background: #f8fafc; padding: 10px 14px; border-radius: var(--radius-md); border-left: 4px solid var(--hdfc-blue);">
-            <strong>Formula Reference:</strong>
-            Fixed tenure EMI: <code>EMI' = round(P · r' · (1+r')ⁿ / ((1+r')ⁿ - 1))</code> &bull;
-            Fixed EMI revised tenure: <code>n' = ceil( -ln(1 - P·r'/EMI) / ln(1+r') )</code>.
-          </div>
-        </div>
-      </div>
-
-      <!-- TAB 3: Official KFS Statement Document -->
-      <div class="tab-content-panel" id="tab-kfs-statement" style="display: none;">
-        <div class="kfs-statement-sheet" id="kfs-printable-sheet">
-          
-          <div class="kfs-sheet-banner">
-            <div class="kfs-sheet-header">
-              <h2>HDFC BANK LIMITED</h2>
-              <p>KEY FACT STATEMENT (KFS) FOR RETAIL LOANS</p>
-              <p style="font-size: 0.7rem; color: #64748b;">In compliance with Reserve Bank of India (RBI) Harmonized KFS Disclosure Standards</p>
-            </div>
-            <div style="text-align: right;">
-              <span class="rbi-badge" style="background: var(--hdfc-blue-light); color: var(--hdfc-blue); border-color: var(--hdfc-blue);">Standard Format</span>
-              <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;" id="kfs-ref-number">Ref: HDFC/KFS/2026/08942</div>
-            </div>
-          </div>
-
-          <!-- Metadata Box -->
-          <div class="kfs-meta-grid">
-            <div class="kfs-meta-item">
-              <strong>Borrower Name</strong>
-              <span id="kfs-disp-borrower">Arnav Potale</span>
-            </div>
-            <div class="kfs-meta-item">
-              <strong>Loan Type</strong>
-              <span id="kfs-disp-type">Housing Loan (Floating)</span>
-            </div>
-            <div class="kfs-meta-item">
-              <strong>KFS Issue Date</strong>
-              <span id="kfs-disp-issue-date">09/10/2026</span>
-            </div>
-            <div class="kfs-meta-item">
-              <strong>Offer Validity Date</strong>
-              <span id="kfs-disp-validity-date">14/10/2026 (3 working days)</span>
-            </div>
-          </div>
-
-          <!-- Official Table Parameters -->
-          <table class="kfs-official-table">
-            <thead>
-              <tr>
-                <th style="width: 50px;">Sr.</th>
-                <th>Parameter</th>
-                <th style="width: 280px; text-align: right;">Details as per HDFC Bank Standards</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>(i)</td>
-                <td>Sanctioned Loan Amount (in Rupees)</td>
-                <td class="val-cell" id="kfs-row-sanctioned">₹ 2,00,00,000</td>
-              </tr>
-              <tr>
-                <td>(ii)</td>
-                <td>Total upfront fees & charges payable (A + B + GST)</td>
-                <td class="val-cell" id="kfs-row-fees">₹ 9,100</td>
-              </tr>
-              <tr style="background: #f8fafc;">
-                <td>(iii)</td>
-                <td><strong>Net Disbursed Amount (in Rupees) [(i) - (ii)]</strong></td>
-                <td class="val-cell" style="color: var(--hdfc-blue-dark);" id="kfs-row-net-disbursed">₹ 1,99,90,900</td>
-              </tr>
-              <tr>
-                <td>(iv)</td>
-                <td>Total Interest payable during entire loan tenure</td>
-                <td class="val-cell" id="kfs-row-interest">₹ 3,15,81,066</td>
-              </tr>
-              <tr class="highlight-kfs-row">
-                <td>(v)</td>
-                <td><strong>Total Amount Payable by borrower [(i) + (iv) + (ii)]</strong></td>
-                <td class="val-cell" style="color: var(--hdfc-blue-dark);" id="kfs-row-total-payable">₹ 5,15,90,166</td>
-              </tr>
-              <tr>
-                <td>(vi)</td>
-                <td>Loan Tenor</td>
-                <td class="val-cell" id="kfs-row-tenure">360 Months (30 Years)</td>
-              </tr>
-              <tr>
-                <td>(vii)</td>
-                <td>Repayment Frequency & Number of Instalments (EPIs)</td>
-                <td class="val-cell" id="kfs-row-epis">Monthly / 360 EPIs</td>
-              </tr>
-              <tr class="highlight-kfs-row">
-                <td>(viii)</td>
-                <td><strong>Equated Monthly Instalment (EMI) Amount (in Rupees)</strong></td>
-                <td class="val-cell" style="color: var(--hdfc-red); font-size: 0.92rem;" id="kfs-row-emi">₹ 1,43,283</td>
-              </tr>
-              <tr>
-                <td>(ix)</td>
-                <td>Interest Rate Type & Benchmark Details</td>
-                <td class="val-cell" id="kfs-row-benchmark">Floating (Benchmark 5.25% + Spread 2.50%)</td>
-              </tr>
-              <tr>
-                <td>(x)</td>
-                <td><strong>Annual Percentage Rate (APR) as per sheet</strong></td>
-                <td class="val-cell" id="kfs-row-sheet-apr">7.75% p.a.</td>
-              </tr>
-              <tr class="highlight-kfs-row" style="background: #ecfdf5;">
-                <td>(xi)</td>
-                <td><strong>Effective APR inclusive of all upfront charges (IRR)</strong></td>
-                <td class="val-cell" style="color: var(--accent-emerald); font-size: 0.92rem;" id="kfs-row-effective-apr">7.75% p.a.</td>
-              </tr>
-              <tr>
-                <td>(xii)</td>
-                <td>Prepayment Penalty / Foreclosure Charges</td>
-                <td class="val-cell" style="font-family: inherit; font-size: 0.78rem;"><strong>Nil</strong> for floating-rate loans to individual borrowers</td>
-              </tr>
+            <tbody id="schedule-tbody">
+              <!-- Dynamically populated rows -->
             </tbody>
           </table>
+        </div>
 
-          <div class="kfs-stamp-strip">
-            <div>
-              <span>Generated on: <strong id="kfs-gen-date">09-Oct-2026</strong></span>
-            </div>
-            <div>
-              <span>Illustrative Bank Key Fact Statement &bull; Page 1 of 1</span>
-            </div>
+        <!-- Pagination Bar -->
+        <div class="pagination-controls-bar">
+          <span id="txt-pag-info">Showing 1 - 360 of 360</span>
+          <div style="display: flex; gap: 4px;">
+            <button type="button" class="pag-btn" id="btn-pag-prev">Prev</button>
+            <button type="button" class="pag-btn" id="btn-pag-next">Next</button>
           </div>
-
         </div>
       </div>
+    </div>
 
-      <!-- TAB 4: Amortisation Schedule Table -->
-      <div class="tab-content-panel" id="tab-schedule" style="display: none;">
-        <div class="schedule-panel">
-          
-          <div class="schedule-toolbar">
-            <div class="schedule-controls-left">
-              <!-- Indexing Mode Toggle -->
-              <div class="toggle-group">
-                <button type="button" class="toggle-btn active" id="btn-index-0" title="HDFC Bank format starting at instalment row 0">Index from 0 (Bank)</button>
-                <button type="button" class="toggle-btn" id="btn-index-1" title="Standard 1-indexed instalment schedule">Index from 1</button>
-              </div>
+    <!-- VIEW 6: Official KFS Sheet -->
+    <div class="view-panel" id="view-kfs-sheet">
+      <div class="kfs-sheet-mobile" id="printable-kfs-sheet">
+        <div style="border-bottom: 2px solid var(--hdfc-blue-light); padding-bottom: 10px; margin-bottom: 10px;">
+          <h2 style="font-size: 1rem; font-weight: 800; color: var(--hdfc-blue-dark);">HDFC BANK LIMITED</h2>
+          <div style="font-size: 0.75rem; font-weight: 700; color: #475569;">KEY FACT STATEMENT (KFS) - RETAIL LOANS</div>
+          <div style="font-size: 0.68rem; color: var(--text-muted);">As per RBI Harmonized Disclosure Directions</div>
+        </div>
 
-              <!-- Page Size Selector -->
-              <div style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem;">
-                <label for="select-page-size" style="font-weight: 600; color: #475569;">Show:</label>
-                <select id="select-page-size" class="form-control input-no-prefix" style="width: 120px; height: 32px; padding: 2px 8px; font-size: 0.78rem;">
-                  <option value="12">12 (1 Year)</option>
-                  <option value="24">24 (2 Years)</option>
-                  <option value="60">60 (5 Years)</option>
-                  <option value="360" selected>All Rows</option>
-                </select>
-              </div>
-            </div>
+        <div class="kfs-mobile-row">
+          <span>Borrower Name</span>
+          <span id="kfs-borrower-name">Arnav Potale</span>
+        </div>
+        <div class="kfs-mobile-row">
+          <span>Facility Type</span>
+          <span id="kfs-facility-type">Housing Loan (Floating)</span>
+        </div>
+        <div class="kfs-mobile-row">
+          <span>KFS Offer Validity</span>
+          <span id="kfs-validity-span">3 working days</span>
+        </div>
+        <div class="kfs-mobile-row bold-row">
+          <span>Sanctioned Amount (P)</span>
+          <span id="kfs-sanctioned-amt">₹ 2,00,00,000</span>
+        </div>
+        <div class="kfs-mobile-row">
+          <span>Upfront Fees & Charges</span>
+          <span id="kfs-fees-amt">₹ 9,100</span>
+        </div>
+        <div class="kfs-mobile-row">
+          <span>Net Disbursed Amount</span>
+          <span id="kfs-net-amt">₹ 1,99,90,900</span>
+        </div>
+        <div class="kfs-mobile-row">
+          <span>Total Interest Payable</span>
+          <span id="kfs-interest-amt">₹ 3,15,81,066</span>
+        </div>
+        <div class="kfs-mobile-row bold-row">
+          <span>Total Amount Payable</span>
+          <span id="kfs-total-paid-amt">₹ 5,15,90,166</span>
+        </div>
+        <div class="kfs-mobile-row">
+          <span>Loan Tenor</span>
+          <span id="kfs-tenor-span">360 Months (30 Years)</span>
+        </div>
+        <div class="kfs-mobile-row bold-row" style="color: var(--hdfc-red);">
+          <span>Equated Monthly Instalment (EMI)</span>
+          <span id="kfs-emi-amt">₹ 1,43,283</span>
+        </div>
+        <div class="kfs-mobile-row">
+          <span>Interest Rate (Annual)</span>
+          <span id="kfs-rate-span">7.75% p.a.</span>
+        </div>
+        <div class="kfs-mobile-row bold-row" style="color: var(--accent-emerald);">
+          <span>Effective APR (IRR on net disbursed)</span>
+          <span id="kfs-apr-span">7.75% p.a.</span>
+        </div>
 
-            <div class="schedule-controls-right">
-              <!-- Quick Jump Input -->
-              <input type="number" id="input-jump-row" placeholder="Jump to #" min="0" max="480" class="form-control input-no-prefix" style="width: 95px; height: 32px; font-size: 0.78rem;">
-              
-              <button type="button" class="btn-action-sm" id="btn-download-schedule-csv">
-                <span>⬇️ Download CSV</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Schedule Table Container with Sticky Headers -->
-          <div class="schedule-table-container">
-            <table class="schedule-table" id="schedule-table">
-              <thead>
-                <tr>
-                  <th style="width: 70px;">Instalment No.</th>
-                  <th style="width: 100px;">Due Date</th>
-                  <th>Outstanding Principal (₹)<br><span style="font-size: 0.68rem; font-weight: 500; color: var(--text-muted);">(Opening)</span></th>
-                  <th>Principal (₹)</th>
-                  <th>Interest (₹)</th>
-                  <th>Instalment (₹)</th>
-                  <th>Closing Balance (₹)</th>
-                </tr>
-              </thead>
-              <tbody id="schedule-tbody">
-                <!-- Schedule rows rendered live -->
-              </tbody>
-              <tfoot>
-                <tr>
-                  <td colspan="2" style="text-align: center;">Grand Totals</td>
-                  <td style="text-align: right;" id="sch-total-opening">-</td>
-                  <td style="text-align: right;" id="sch-total-principal">₹ 2,00,00,000</td>
-                  <td style="text-align: right;" id="sch-total-interest">₹ 3,15,81,066</td>
-                  <td style="text-align: right;" id="sch-total-paid">₹ 5,15,81,066</td>
-                  <td style="text-align: right;">₹ 0</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
-
-          <!-- Pagination Bar -->
-          <div class="pagination-bar" id="pagination-bar">
-            <div>
-              Showing <span id="pag-start">1</span> to <span id="pag-end">360</span> of <span id="pag-total">360</span> instalments
-            </div>
-            <div class="pagination-actions">
-              <button type="button" class="page-btn" id="btn-page-first">First</button>
-              <button type="button" class="page-btn" id="btn-page-prev">Prev</button>
-              <span style="font-size: 0.78rem; font-weight: 600; padding: 0 6px;" id="pag-current-info">Page 1 of 1</span>
-              <button type="button" class="page-btn" id="btn-page-next">Next</button>
-              <button type="button" class="page-btn" id="btn-page-last">Last</button>
-            </div>
-          </div>
-
+        <div style="font-size: 0.65rem; color: var(--text-muted); margin-top: 10px; border-top: 1px solid #f1f5f9; padding-top: 6px;">
+          Prepayment charges: Nil for floating-rate individual retail loans.
         </div>
       </div>
-
-    </section>
+    </div>
 
   </main>
 
   <script>
     /**
-     * HDFC Bank Key Fact Statement (KFS) Loan Calculator Engine
-     * Pure Vanilla JavaScript - Zero external runtime dependencies
+     * Mobile-first HDFC Bank Key Fact Statement Loan Calculator
+     * Ultra-lightweight Vanilla JS Engine
      */
 
-    // --- State Management ---
     const state = {
-      // Inputs
       principal: 20000000,
       tenureMonths: 360,
-      tenureInputMode: 'months', // 'months' | 'years'
-      rateMode: 'direct', // 'direct' | 'split'
-      finalRate: 7.75, // Direct Annual Interest Rate
+      tenureMode: 'months',
+      finalRate: 7.75,
       benchmarkRate: 5.25,
       spreadRate: 2.50,
-
-      // Metadata
-      borrowerName: 'Arnav Potale',
-      loanType: 'Housing Loan (Floating)',
-      kfsIssueDate: new Date().toISOString().split('T')[0],
-      firstEmiDate: getNextMonthFirstDate(),
-
-      // Fees
+      deltaBps: 25,
       fees: {
         procLender: 9000,
-        procThird: 0,
-        insLender: 0,
-        insThird: 0,
-        adminLender: 0,
-        adminThird: 0,
-        cersaiLender: 0,
         cersaiThird: 100,
-        otherLender: 0,
-        otherThird: 0,
         applyGst: false
       },
-
-      // Rate Sensitivity Delta BPS
-      deltaBps: 25, // default 25 bps
-
-      // Prepayment Simulator
       prepay: {
         amount: 1000000,
         month: 24,
-        strategy: 'reduce_tenure' // 'reduce_tenure' | 'reduce_emi'
+        strategy: 'tenure'
       },
-
-      // Schedule Table Controls
-      scheduleStartIndex: 0, // 0 for bank sheet, 1 for standard
+      scheduleStartIndex: 0,
       pageSize: 360,
       currentPage: 1,
-
-      // Calculated Cache
       computed: {
         emi: 0,
         totalInterest: 0,
         totalPayment: 0,
-        interestRatio: 0,
-        sheetApr: 0,
-        effectiveApr: 0,
         totalFees: 9100,
-        totalFeesLender: 9000,
-        totalFeesThird: 100,
         netDisbursed: 0,
+        effectiveApr: 0,
         schedule: []
       }
     };
 
-    // --- Formatters (Intl.NumberFormat en-IN) ---
-    const inrFormatter = new Intl.NumberFormat('en-IN', {
-      maximumFractionDigits: 0
-    });
-
-    const inrCurrencyFormatter = new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: 'INR',
-      maximumFractionDigits: 0
-    });
-
-    function formatINR(val) {
-      if (isNaN(val) || val === null || val === undefined) return '₹ 0';
-      return '₹ ' + inrFormatter.format(Math.round(val));
+    // Number formatters
+    const numFmt = new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 });
+    function formatINR(v) {
+      if (isNaN(v) || v === null) return '₹ 0';
+      return '₹ ' + numFmt.format(Math.round(v));
+    }
+    function formatNum(v) {
+      if (isNaN(v) || v === null) return '0';
+      return numFmt.format(Math.round(v));
+    }
+    function toIndianWords(n) {
+      const v = Math.round(n);
+      if (v >= 10000000) return `₹ ${numFmt.format(v)} (${(v / 10000000).toFixed(2)} Crore)`;
+      if (v >= 100000) return `₹ ${numFmt.format(v)} (${(v / 100000).toFixed(2)} Lakh)`;
+      return `₹ ${numFmt.format(v)}`;
     }
 
-    function formatNumber(val) {
-      if (isNaN(val) || val === null || val === undefined) return '0';
-      return inrFormatter.format(Math.round(val));
-    }
-
-    function numberToIndianWords(num) {
-      if (!num || isNaN(num) || num <= 0) return '₹ 0';
-      const n = Math.round(num);
-      if (n >= 10000000) {
-        return `₹ ${inrFormatter.format(n)} (${(n / 10000000).toFixed(2)} Crore)`;
-      } else if (n >= 100000) {
-        return `₹ ${inrFormatter.format(n)} (${(n / 100000).toFixed(2)} Lakh)`;
-      } else if (n >= 1000) {
-        return `₹ ${inrFormatter.format(n)} (${(n / 1000).toFixed(2)} Thousand)`;
-      }
-      return `₹ ${inrFormatter.format(n)}`;
-    }
-
-    function getNextMonthFirstDate() {
-      const d = new Date();
-      d.setMonth(d.getMonth() + 1);
-      d.setDate(1);
-      return d.toISOString().split('T')[0];
-    }
-
-    // --- Working Days Calculator (KFS Validity: Issue Date + 3 working days) ---
-    function computeWorkingDaysValidity(startDateStr, days = 3) {
-      if (!startDateStr) return 'N/A';
-      const cur = new Date(startDateStr);
-      if (isNaN(cur.getTime())) return 'N/A';
-      
-      let added = 0;
-      while (added < days) {
-        cur.setDate(cur.getDate() + 1);
-        const day = cur.getDay(); // 0 is Sun, 6 is Sat
-        // Exclude Saturday and Sunday
-        if (day !== 0 && day !== 6) {
-          added++;
-        }
-      }
-      
-      const options = { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' };
-      return cur.toLocaleDateString('en-IN', options);
-    }
-
-    function addMonthsToDate(startDateStr, monthsToAdd) {
-      if (!startDateStr) return '-';
-      const d = new Date(startDateStr);
-      if (isNaN(d.getTime())) return '-';
-      d.setMonth(d.getMonth() + monthsToAdd);
-      const day = String(d.getDate()).padStart(2, '0');
-      const month = d.toLocaleString('en-IN', { month: 'short' });
-      const year = d.getFullYear();
-      return `${day}-${month}-${year}`;
-    }
-
-    // --- Mathematical Core Formulas ---
-    /**
-     * EMI = ceil(P * r * (1 + r)^n / ((1 + r)^n - 1))
-     * Bank KFS ceiling round convention prevents under-recovery of principal
-     */
+    // EMI formula: ceil(P * r * (1+r)^n / ((1+r)^n - 1))
     function calculateEMI(P, R, n) {
       if (P <= 0 || n <= 0) return 0;
-      const r = R / 12 / 100;
+      const r = R / 1200;
       if (r <= 0) return Math.ceil(P / n);
-      const factor = Math.pow(1 + r, n);
-      return Math.ceil(P * r * factor / (factor - 1));
+      const f = Math.pow(1 + r, n);
+      return Math.ceil(P * r * f / (f - 1));
     }
 
-    /**
-     * Revised tenure at higher rate with fixed EMI:
-     * n' = ceil(-ln(1 - P * r' / EMI) / ln(1 + r'))
-     */
+    // Revised tenure for same EMI: ceil(-ln(1 - P*r'/EMI) / ln(1+r'))
     function calculateTenureForEMI(P, R_prime, emi) {
-      const r_prime = R_prime / 12 / 100;
-      const interestPerMonth = P * r_prime;
-      if (emi <= interestPerMonth) {
-        return Infinity; // Loan balance would explode
-      }
-      const ratio = 1 - (interestPerMonth / emi);
-      return Math.ceil(-Math.log(ratio) / Math.log(1 + r_prime));
+      const r_prime = R_prime / 1200;
+      const intPerMo = P * r_prime;
+      if (emi <= intPerMo) return Infinity;
+      return Math.ceil(-Math.log(1 - (intPerMo / emi)) / Math.log(1 + r_prime));
     }
 
-    /**
-     * Internal Rate of Return (IRR) based Effective APR:
-     * Solve for monthly discount rate m such that:
-     * NetDisbursed = sum_{t=1}^n Instalment_t / (1 + m)^t
-     * Nominal APR = m * 12 * 100
-     */
+    // Newton-Raphson IRR for Effective APR
     function calculateEffectiveAPR(netDisbursed, cashflows, baseRate) {
-      if (netDisbursed <= 0 || !cashflows || cashflows.length === 0) return baseRate;
-      
-      let rate = (baseRate / 1200); // initial guess
-      const maxIter = 100;
-      const tolerance = 1e-5;
-
-      for (let i = 0; i < maxIter; i++) {
+      if (netDisbursed <= 0 || !cashflows || !cashflows.length) return baseRate;
+      let rate = baseRate / 1200;
+      for (let i = 0; i < 80; i++) {
         let npv = -netDisbursed;
         let dnpv = 0;
-
         for (let t = 1; t <= cashflows.length; t++) {
           const cf = cashflows[t - 1];
           const factor = Math.pow(1 + rate, t);
           npv += cf / factor;
           dnpv -= (t * cf) / (factor * (1 + rate));
         }
-
-        if (Math.abs(npv) < tolerance) break;
-        if (Math.abs(dnpv) < 1e-12) break;
-
+        if (Math.abs(npv) < 1e-4 || Math.abs(dnpv) < 1e-12) break;
         const nextRate = rate - npv / dnpv;
-        if (isNaN(nextRate) || nextRate <= -0.99 || nextRate > 1.0) {
-          // fallback to bisection
-          break;
-        }
+        if (isNaN(nextRate) || nextRate <= -0.99 || nextRate > 1.0) break;
         rate = nextRate;
       }
-
-      const nominalApr = rate * 12 * 100;
-      return isNaN(nominalApr) ? baseRate : nominalApr;
+      const apr = rate * 1200;
+      return isNaN(apr) ? baseRate : apr;
     }
 
-    // --- Schedule Generator ---
-    function generateFullSchedule(P, R, n, startIndex = 0, firstDateStr = '') {
-      const r = R / 12 / 100;
+    // Schedule generation
+    function generateSchedule(P, R, n, startIndex = 0) {
+      const r = R / 1200;
       const emi = calculateEMI(P, R, n);
       let balance = P;
       const schedule = [];
@@ -2126,7 +1303,6 @@
         let principal = emi - interest;
         let instalment = emi;
 
-        // Final instalment rule: remaining balance + interest
         if (i === n - 1 || opening <= principal) {
           principal = opening;
           instalment = principal + interest;
@@ -2146,190 +1322,91 @@
 
         schedule.push({
           instNo,
-          dueDate: addMonthsToDate(firstDateStr, i),
           opening,
           principal,
           interest,
           instalment,
           closing
         });
-
         if (balance <= 0) break;
       }
 
-      return {
-        emi,
-        totalInterest,
-        totalPrincipal,
-        totalPayment,
-        schedule
-      };
+      return { emi, totalInterest, totalPrincipal, totalPayment, schedule };
     }
 
-    // --- Prepayment Engine ---
+    // Prepayment simulation
     function simulatePrepayment(P, n, R, prepayMonth, prepayAmount, strategy) {
-      const r = R / 12 / 100;
-      const originalEmi = calculateEMI(P, R, n);
-      
-      // Compute normal total interest
-      const baseSched = generateFullSchedule(P, R, n, 0, '');
-      const normalTotalInterest = baseSched.totalInterest;
+      const r = R / 1200;
+      const emi = calculateEMI(P, R, n);
+      const baseSched = generateSchedule(P, R, n, 0);
+      const normalInterest = baseSched.totalInterest;
 
       let balance = P;
       let newTotalInterest = 0;
       let actualMonths = 0;
-      let revisedEmi = originalEmi;
+      let newEmi = emi;
 
-      if (strategy === 'reduce_emi') {
-        // Amortize normally up to prepayMonth - 1
+      if (strategy === 'emi') {
         for (let m = 1; m < prepayMonth; m++) {
-          const interest = Math.round(balance * r);
-          const principal = originalEmi - interest;
-          balance -= principal;
-          newTotalInterest += interest;
+          const intAmt = Math.round(balance * r);
+          balance -= (emi - intAmt);
+          newTotalInterest += intAmt;
           actualMonths++;
         }
-
-        // At prepayMonth:
-        const interest = Math.round(balance * r);
-        const normalPrin = originalEmi - interest;
-        balance -= (normalPrin + prepayAmount);
-        newTotalInterest += interest;
+        const intAtPrepay = Math.round(balance * r);
+        balance -= ((emi - intAtPrepay) + prepayAmount);
+        newTotalInterest += intAtPrepay;
         actualMonths++;
 
-        const remainingMonths = n - prepayMonth;
-        if (balance > 0 && remainingMonths > 0) {
-          revisedEmi = calculateEMI(balance, R, remainingMonths);
-          for (let m = 0; m < remainingMonths; m++) {
-            const intAmt = Math.round(balance * r);
-            let prinAmt = revisedEmi - intAmt;
-            if (m === remainingMonths - 1 || balance <= prinAmt) {
-              prinAmt = balance;
-            }
-            balance -= prinAmt;
-            newTotalInterest += intAmt;
+        const remMonths = n - prepayMonth;
+        if (balance > 0 && remMonths > 0) {
+          newEmi = calculateEMI(balance, R, remMonths);
+          for (let m = 0; m < remMonths; m++) {
+            const intA = Math.round(balance * r);
+            let prinA = newEmi - intA;
+            if (m === remMonths - 1 || balance <= prinA) prinA = balance;
+            balance -= prinA;
+            newTotalInterest += intA;
             actualMonths++;
             if (balance <= 0) break;
           }
         }
       } else {
-        // reduce_tenure
+        // tenure
         for (let m = 1; m <= n; m++) {
-          const interest = Math.round(balance * r);
-          let principal = originalEmi - interest;
-          if (m === prepayMonth) {
-            principal += prepayAmount;
-          }
-          if (balance <= principal) {
-            principal = balance;
-            newTotalInterest += interest;
+          const intA = Math.round(balance * r);
+          let prinA = emi - intA;
+          if (m === prepayMonth) prinA += prepayAmount;
+          if (balance <= prinA) {
+            prinA = balance;
+            newTotalInterest += intA;
             balance = 0;
             actualMonths = m;
             break;
           }
-          balance -= principal;
-          newTotalInterest += interest;
+          balance -= prinA;
+          newTotalInterest += intA;
           actualMonths = m;
           if (balance <= 0) break;
         }
       }
 
-      const interestSaved = Math.max(0, normalTotalInterest - newTotalInterest);
-      const monthsSaved = Math.max(0, n - actualMonths);
-
       return {
-        strategy,
-        prepayMonth,
-        prepayAmount,
-        interestSaved,
-        monthsSaved,
+        interestSaved: Math.max(0, normalInterest - newTotalInterest),
+        monthsSaved: Math.max(0, n - actualMonths),
         actualMonths,
-        revisedEmi,
-        originalEmi
+        newEmi,
+        originalEmi: emi
       };
     }
 
-    // --- Chart Instances ---
-    let amortisationChart = null;
-    let compositionChart = null;
+    // Charts
+    let chartComposition = null;
+    let chartAmortisation = null;
 
-    function initCharts() {
-      // Amortisation line chart
-      const ctxAmort = document.getElementById('chart-amortisation').getContext('2d');
-      amortisationChart = new Chart(ctxAmort, {
-        type: 'line',
-        data: {
-          labels: [],
-          datasets: [
-            {
-              label: 'Outstanding Principal',
-              data: [],
-              borderColor: '#004c8f',
-              backgroundColor: 'rgba(0, 76, 143, 0.08)',
-              borderWidth: 2.5,
-              fill: true,
-              tension: 0.25,
-              pointRadius: 0
-            },
-            {
-              label: 'Cumulative Interest Paid',
-              data: [],
-              borderColor: '#d97706',
-              backgroundColor: 'rgba(217, 119, 6, 0.04)',
-              borderWidth: 2,
-              borderDash: [5, 5],
-              fill: true,
-              tension: 0.25,
-              pointRadius: 0
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          interaction: {
-            mode: 'index',
-            intersect: false
-          },
-          plugins: {
-            legend: {
-              position: 'top',
-              labels: {
-                boxWidth: 12,
-                font: { family: "'Plus Jakarta Sans', sans-serif", size: 11, weight: '600' }
-              }
-            },
-            tooltip: {
-              callbacks: {
-                label: function(context) {
-                  return `${context.dataset.label}: ${formatINR(context.raw)}`;
-                }
-              }
-            }
-          },
-          scales: {
-            x: {
-              grid: { display: false },
-              ticks: { maxTicksLimit: 10, font: { size: 10 } }
-            },
-            y: {
-              grid: { color: '#f1f5f9' },
-              ticks: {
-                callback: function(val) {
-                  if (val >= 10000000) return '₹' + (val / 10000000).toFixed(1) + 'Cr';
-                  if (val >= 100000) return '₹' + (val / 100000).toFixed(0) + 'L';
-                  return '₹' + val;
-                },
-                font: { size: 10 }
-              }
-            }
-          }
-        }
-      });
-
-      // Composition doughnut chart
-      const ctxComp = document.getElementById('chart-composition').getContext('2d');
-      compositionChart = new Chart(ctxComp, {
+    function initMobileCharts() {
+      const ctxComp = document.getElementById('chart-mobile-composition').getContext('2d');
+      chartComposition = new Chart(ctxComp, {
         type: 'doughnut',
         data: {
           labels: ['Principal Loan', 'Total Interest', 'Upfront Fees'],
@@ -2337,816 +1414,498 @@
             data: [20000000, 31581066, 9100],
             backgroundColor: ['#004c8f', '#d97706', '#4f46e5'],
             borderWidth: 2,
-            borderColor: '#ffffff',
-            hoverOffset: 4
+            borderColor: '#ffffff'
           }]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
           plugins: {
-            legend: {
-              position: 'bottom',
-              labels: {
-                boxWidth: 12,
-                padding: 12,
-                font: { family: "'Plus Jakarta Sans', sans-serif", size: 11, weight: '600' }
-              }
-            },
-            tooltip: {
-              callbacks: {
-                label: function(context) {
-                  const val = context.raw;
-                  const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                  const pct = ((val / total) * 100).toFixed(1);
-                  return `${context.label}: ${formatINR(val)} (${pct}%)`;
-                }
+            legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10, weight: '600' } } }
+          },
+          cutout: '65%'
+        }
+      });
+
+      const ctxAmort = document.getElementById('chart-mobile-amortisation').getContext('2d');
+      chartAmortisation = new Chart(ctxAmort, {
+        type: 'line',
+        data: {
+          labels: [],
+          datasets: [
+            {
+              label: 'Outstanding Balance',
+              data: [],
+              borderColor: '#004c8f',
+              backgroundColor: 'rgba(0, 76, 143, 0.08)',
+              borderWidth: 2,
+              fill: true,
+              pointRadius: 0
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { display: false }, ticks: { maxTicksLimit: 6, font: { size: 9 } } },
+            y: {
+              grid: { color: '#f1f5f9' },
+              ticks: {
+                callback: v => v >= 10000000 ? '₹' + (v / 10000000).toFixed(1) + 'Cr' : (v >= 100000 ? '₹' + (v / 100000).toFixed(0) + 'L' : v),
+                font: { size: 9 }
               }
             }
-          },
-          cutout: '68%'
+          }
         }
       });
     }
 
     function updateCharts() {
-      if (!amortisationChart || !compositionChart) return;
+      if (!chartComposition || !chartAmortisation) return;
+      const sched = state.computed.schedule;
+      if (!sched || !sched.length) return;
 
-      const schedule = state.computed.schedule;
-      if (!schedule || schedule.length === 0) return;
+      chartComposition.data.datasets[0].data = [state.principal, state.computed.totalInterest, state.computed.totalFees];
+      chartComposition.update();
 
-      // Downsample for chart points (max 60 points)
-      const step = Math.max(1, Math.floor(schedule.length / 40));
+      const step = Math.max(1, Math.floor(sched.length / 25));
       const labels = [];
-      const balanceData = [];
-      const interestData = [];
-      let runningInterest = 0;
-
-      for (let i = 0; i < schedule.length; i++) {
-        runningInterest += schedule[i].interest;
-        if (i % step === 0 || i === schedule.length - 1) {
-          labels.push(`M${schedule[i].instNo}`);
-          balanceData.push(schedule[i].opening);
-          interestData.push(runningInterest);
-        }
+      const data = [];
+      for (let i = 0; i < sched.length; i += step) {
+        labels.push(`M${sched[i].instNo}`);
+        data.push(sched[i].opening);
       }
+      labels.push(`M${sched[sched.length - 1].instNo}`);
+      data.push(0);
 
-      amortisationChart.data.labels = labels;
-      amortisationChart.data.datasets[0].data = balanceData;
-      amortisationChart.data.datasets[1].data = interestData;
-      amortisationChart.update();
-
-      // Update doughnut chart
-      const P = state.principal;
-      const totalInt = state.computed.totalInterest;
-      const totalFees = state.computed.totalFees;
-
-      compositionChart.data.datasets[0].data = [P, totalInt, totalFees];
-      compositionChart.update();
+      chartAmortisation.data.labels = labels;
+      chartAmortisation.data.datasets[0].data = data;
+      chartAmortisation.update();
     }
 
-    // --- Core Recalculation Flow ---
-    function recalculateAll() {
+    // Recalculation Flow
+    function recalculate() {
       // 1. Read Inputs
-      state.principal = parseFloat(document.getElementById('input-loan-amount').value) || 0;
-      
-      let tenureInputVal = parseFloat(document.getElementById('input-loan-tenure').value) || 0;
-      if (state.tenureInputMode === 'years') {
-        state.tenureMonths = Math.round(tenureInputVal * 12);
-      } else {
-        state.tenureMonths = Math.round(tenureInputVal);
-      }
+      state.principal = parseFloat(document.getElementById('inp-loan-amount').value) || 0;
+      let tVal = parseFloat(document.getElementById('inp-loan-tenure').value) || 0;
+      state.tenureMonths = state.tenureMode === 'years' ? Math.round(tVal * 12) : Math.round(tVal);
+      state.finalRate = parseFloat(document.getElementById('inp-interest-rate').value) || 0;
+      state.deltaBps = parseFloat(document.getElementById('inp-custom-bps').value) || 25;
 
-      // Read Interest Rate based on mode
-      if (state.rateMode === 'direct') {
-        const directVal = parseFloat(document.getElementById('input-interest-rate').value);
-        state.finalRate = isNaN(directVal) ? 0 : parseFloat(directVal.toFixed(4));
-        // Keep benchmark & spread synchronized in background
-        if (state.benchmarkRate <= 0) state.benchmarkRate = 5.25;
-        state.spreadRate = parseFloat(Math.max(0, state.finalRate - state.benchmarkRate).toFixed(4));
-        const spreadEl = document.getElementById('input-spread-rate');
-        if (spreadEl) spreadEl.value = state.spreadRate.toFixed(2);
-      } else {
-        state.benchmarkRate = parseFloat(document.getElementById('input-benchmark-rate').value) || 0;
-        state.spreadRate = parseFloat(document.getElementById('input-spread-rate').value) || 0;
-        state.finalRate = parseFloat((state.benchmarkRate + state.spreadRate).toFixed(4));
-        const directEl = document.getElementById('input-interest-rate');
-        if (directEl) directEl.value = state.finalRate.toFixed(2);
-      }
+      if (state.principal <= 0 || state.tenureMonths <= 0 || state.finalRate <= 0) return;
 
-      state.borrowerName = document.getElementById('input-borrower-name').value || 'Borrower';
-      state.loanType = document.getElementById('select-loan-type').value;
-      state.kfsIssueDate = document.getElementById('input-kfs-date').value;
-      state.firstEmiDate = document.getElementById('input-first-emi-date').value;
+      // 2. Fees
+      const procFee = parseFloat(document.getElementById('fee-inp-proc').value) || 0;
+      const cersaiFee = parseFloat(document.getElementById('fee-inp-cersai').value) || 0;
+      const applyGst = document.getElementById('chk-gst').checked;
+      const gstAmt = applyGst ? Math.round(procFee * 0.18) : 0;
 
-      // Rate Delta BPS
-      state.deltaBps = parseFloat(document.getElementById('input-custom-bps').value) || 25;
+      document.getElementById('gst-row-mobile').style.display = applyGst ? 'flex' : 'none';
+      document.getElementById('disp-gst-val').textContent = formatINR(gstAmt);
 
-      // Validate core fields
-      let isValid = true;
-      const errAmount = document.getElementById('error-loan-amount');
-      const errTenure = document.getElementById('error-loan-tenure');
-      const errRate = document.getElementById('error-interest-rate');
-      const errBench = document.getElementById('error-benchmark');
-      const errSpread = document.getElementById('error-spread');
-
-      if (state.principal <= 0 || isNaN(state.principal)) {
-        errAmount.classList.add('active');
-        document.getElementById('input-loan-amount').classList.add('is-invalid');
-        isValid = false;
-      } else {
-        errAmount.classList.remove('active');
-        document.getElementById('input-loan-amount').classList.remove('is-invalid');
-      }
-
-      if (state.tenureMonths < 1 || state.tenureMonths > 480 || isNaN(state.tenureMonths)) {
-        errTenure.classList.add('active');
-        document.getElementById('input-loan-tenure').classList.add('is-invalid');
-        isValid = false;
-      } else {
-        errTenure.classList.remove('active');
-        document.getElementById('input-loan-tenure').classList.remove('is-invalid');
-      }
-
-      if (state.rateMode === 'direct') {
-        if (state.finalRate <= 0 || isNaN(state.finalRate)) {
-          if (errRate) errRate.classList.add('active');
-          document.getElementById('input-interest-rate').classList.add('is-invalid');
-          isValid = false;
-        } else {
-          if (errRate) errRate.classList.remove('active');
-          document.getElementById('input-interest-rate').classList.remove('is-invalid');
-        }
-      } else {
-        if (state.benchmarkRate <= 0) {
-          errBench.classList.add('active');
-          isValid = false;
-        } else {
-          errBench.classList.remove('active');
-        }
-
-        if (state.spreadRate < 0) {
-          errSpread.classList.add('active');
-          isValid = false;
-        } else {
-          errSpread.classList.remove('active');
-        }
-      }
-
-      if (!isValid) return;
-
-      // 2. Compute Fees
-      recalculateFees();
-
-      // 3. Compute Schedule & Amortisation
-      const schedResult = generateFullSchedule(
-        state.principal,
-        state.finalRate,
-        state.tenureMonths,
-        state.scheduleStartIndex,
-        state.firstEmiDate
-      );
-
-      state.computed.emi = schedResult.emi;
-      state.computed.totalInterest = schedResult.totalInterest;
-      state.computed.totalPayment = schedResult.totalPayment;
-      state.computed.schedule = schedResult.schedule;
-      state.computed.interestRatio = (state.computed.totalInterest / state.principal) * 100;
-      state.computed.sheetApr = state.finalRate;
-
-      // 4. Compute Effective APR (IRR)
-      const netDisbursed = Math.max(1, state.principal - state.computed.totalFees);
+      const totalFees = procFee + cersaiFee + gstAmt;
+      state.computed.totalFees = totalFees;
+      const netDisbursed = Math.max(1, state.principal - totalFees);
       state.computed.netDisbursed = netDisbursed;
-      const cashflows = schedResult.schedule.map(row => row.instalment);
+
+      document.getElementById('disp-fees-total').textContent = formatINR(totalFees);
+      document.getElementById('disp-net-disbursed').textContent = formatINR(netDisbursed);
+
+      // 3. Schedule & EMI
+      const res = generateSchedule(state.principal, state.finalRate, state.tenureMonths, state.scheduleStartIndex);
+      state.computed.emi = res.emi;
+      state.computed.totalInterest = res.totalInterest;
+      state.computed.totalPayment = res.totalPayment;
+      state.computed.schedule = res.schedule;
+
+      // 4. Effective APR (IRR)
+      const cashflows = res.schedule.map(r => r.instalment);
       state.computed.effectiveApr = calculateEffectiveAPR(netDisbursed, cashflows, state.finalRate);
 
       // 5. Update UI
-      updateUIElements();
-      renderRateSensitivityTable();
-      renderPrepaymentSimulation();
+      updateUI();
+      renderRateSensitivity();
+      renderPrepayment();
       renderScheduleTable();
       updateCharts();
     }
 
-    // --- Fees Calculation ---
-    function recalculateFees() {
-      const procLender = parseFloat(document.getElementById('fee-proc-lender').value) || 0;
-      const procThird = parseFloat(document.getElementById('fee-proc-third').value) || 0;
-      
-      const insLender = parseFloat(document.getElementById('fee-ins-lender').value) || 0;
-      const insThird = parseFloat(document.getElementById('fee-ins-third').value) || 0;
-
-      const adminLender = parseFloat(document.getElementById('fee-admin-lender').value) || 0;
-      const adminThird = parseFloat(document.getElementById('fee-admin-third').value) || 0;
-
-      const cersaiLender = parseFloat(document.getElementById('fee-cersai-lender').value) || 0;
-      const cersaiThird = parseFloat(document.getElementById('fee-cersai-third').value) || 0;
-
-      const otherLender = parseFloat(document.getElementById('fee-other-lender').value) || 0;
-      const otherThird = parseFloat(document.getElementById('fee-other-third').value) || 0;
-
-      const applyGst = document.getElementById('chk-gst-toggle').checked;
-      state.fees.applyGst = applyGst;
-
-      const gstAmt = applyGst ? Math.round(procLender * 0.18) : 0;
-
-      // Update row totals
-      document.getElementById('fee-proc-total').textContent = formatINR(procLender + procThird + (applyGst ? gstAmt : 0));
-      document.getElementById('fee-ins-total').textContent = formatINR(insLender + insThird);
-      document.getElementById('fee-admin-total').textContent = formatINR(adminLender + adminThird);
-      document.getElementById('fee-cersai-total').textContent = formatINR(cersaiLender + cersaiThird);
-      document.getElementById('fee-other-total').textContent = formatINR(otherLender + otherThird);
-
-      // GST display row
-      const gstRow = document.getElementById('gst-display-row');
-      if (applyGst) {
-        gstRow.style.display = 'table-row';
-        document.getElementById('gst-lender-amt').textContent = formatINR(gstAmt);
-        document.getElementById('gst-total-amt').textContent = formatINR(gstAmt);
-      } else {
-        gstRow.style.display = 'none';
-      }
-
-      const totalLender = procLender + insLender + adminLender + cersaiLender + otherLender + gstAmt;
-      const totalThird = procThird + insThird + adminThird + cersaiThird + otherThird;
-      const grandTotal = totalLender + totalThird;
-
-      state.computed.totalFeesLender = totalLender;
-      state.computed.totalFeesThird = totalThird;
-      state.computed.totalFees = grandTotal;
-
-      document.getElementById('total-fees-lender').textContent = formatINR(totalLender);
-      document.getElementById('total-fees-third').textContent = formatINR(totalThird);
-      document.getElementById('grand-total-fees').textContent = formatINR(grandTotal);
-      document.getElementById('disp-net-disbursed').textContent = formatINR(state.principal - grandTotal);
-    }
-
-    // --- Update UI Displays ---
-    function updateUIElements() {
-      // Inputs preview
-      document.getElementById('preview-loan-amount').textContent = numberToIndianWords(state.principal);
-      document.getElementById('slider-loan-amount').value = Math.min(state.principal, 50000000);
+    function updateUI() {
+      // Verbal & Sliders
+      document.getElementById('preview-verbal-amount').textContent = toIndianWords(state.principal);
+      document.getElementById('disp-loan-crores').textContent = (state.principal / 10000000).toFixed(2) + ' Cr';
+      document.getElementById('range-loan-amount').value = Math.min(state.principal, 50000000);
 
       const yrs = (state.tenureMonths / 12).toFixed(1);
-      document.getElementById('preview-tenure-calc').textContent = `${state.tenureMonths} Months = ${yrs} Years`;
-      document.getElementById('slider-loan-tenure').value = state.tenureMonths;
+      document.getElementById('preview-tenure-text').textContent = `${state.tenureMonths} Months = ${yrs} Years`;
+      document.getElementById('range-loan-tenure').value = state.tenureMonths;
 
-      // Final Rate box & preview
-      document.getElementById('disp-final-rate').textContent = `${state.finalRate.toFixed(2)}%`;
-      const monthlyRatePct = (state.finalRate / 12).toFixed(4);
-      const prevRateMonthly = document.getElementById('preview-rate-monthly');
-      if (prevRateMonthly) prevRateMonthly.textContent = `Monthly rate: ${monthlyRatePct}% per month`;
-      const sliderRate = document.getElementById('slider-interest-rate');
-      if (sliderRate) sliderRate.value = Math.min(Math.max(state.finalRate, 1), 25);
+      const monthlyRate = (state.finalRate / 12).toFixed(4);
+      document.getElementById('disp-monthly-rate-badge').textContent = `${monthlyRate}%/mo`;
+      document.getElementById('preview-rate-text').textContent = `Annual Rate: ${state.finalRate.toFixed(2)}%`;
+      document.getElementById('range-interest-rate').value = Math.min(Math.max(state.finalRate, 1), 25);
 
-      const formulaTitle = document.getElementById('rate-formula-title');
-      const formulaMath = document.getElementById('rate-formula-math');
-      if (state.rateMode === 'direct') {
-        if (formulaTitle) formulaTitle.textContent = 'Annual Interest Rate (R)';
-        if (formulaMath) formulaMath.textContent = `Direct Rate: ${state.finalRate.toFixed(2)}% p.a. (Monthly: ${monthlyRatePct}%)`;
-      } else {
-        if (formulaTitle) formulaTitle.textContent = 'Final Rate (R) = B + S';
-        if (formulaMath) formulaMath.textContent = `${state.benchmarkRate.toFixed(2)}% (B) + ${state.spreadRate.toFixed(2)}% (S)`;
-      }
+      // Hero Card
+      document.getElementById('disp-hero-emi').textContent = formatINR(state.computed.emi);
+      const intCr = (state.computed.totalInterest / 10000000).toFixed(2);
+      document.getElementById('disp-hero-interest').textContent = `₹ ${intCr} Cr`;
+      const totCr = (state.computed.totalPayment / 10000000).toFixed(2);
+      document.getElementById('disp-hero-payment').textContent = `₹ ${totCr} Cr`;
+      document.getElementById('disp-hero-apr').textContent = `${state.computed.effectiveApr.toFixed(2)}%`;
+      document.getElementById('disp-effective-apr-tab').textContent = `${state.computed.effectiveApr.toFixed(2)}%`;
 
-      // KFS Validity Date
-      const validityStr = computeWorkingDaysValidity(state.kfsIssueDate, 3);
-      document.getElementById('disp-kfs-validity').textContent = `${validityStr} (3 working days)`;
-
-      // KPI Cards
-      document.getElementById('kpi-emi').textContent = formatINR(state.computed.emi);
-      document.getElementById('kpi-total-interest').textContent = formatINR(state.computed.totalInterest);
-      document.getElementById('kpi-interest-ratio').textContent = `Interest-to-Principal: ${state.computed.interestRatio.toFixed(1)}%`;
-      
-      const interestRatioWidth = Math.min(100, Math.round(state.computed.interestRatio / 2.5));
-      document.getElementById('kpi-bar-interest').style.width = `${interestRatioWidth}%`;
-
-      document.getElementById('kpi-total-payment').textContent = formatINR(state.computed.totalPayment);
-      
-      const pCrores = (state.principal / 10000000).toFixed(2);
-      const intCrores = (state.computed.totalInterest / 10000000).toFixed(2);
-      document.getElementById('kpi-payment-breakdown').textContent = `₹ ${pCrores} Cr Principal + ₹ ${intCrores} Cr Int`;
-
-      document.getElementById('kpi-effective-apr').textContent = `${state.computed.effectiveApr.toFixed(2)}%`;
-      document.getElementById('kpi-apr-nominal').textContent = `Sheet APR: ${state.computed.sheetApr.toFixed(2)}% • Net IRR: ${state.computed.effectiveApr.toFixed(4)}%`;
-
-      // Official KFS Sheet Tab
-      document.getElementById('kfs-disp-borrower').textContent = state.borrowerName;
-      document.getElementById('kfs-disp-type').textContent = state.loanType;
-      document.getElementById('kfs-disp-issue-date').textContent = formatDateIndian(state.kfsIssueDate);
-      document.getElementById('kfs-disp-validity-date').textContent = `${validityStr} (3 working days)`;
-
-      document.getElementById('kfs-row-sanctioned').textContent = formatINR(state.principal);
-      document.getElementById('kfs-row-fees').textContent = formatINR(state.computed.totalFees);
-      document.getElementById('kfs-row-net-disbursed').textContent = formatINR(state.computed.netDisbursed);
-      document.getElementById('kfs-row-interest').textContent = formatINR(state.computed.totalInterest);
-      document.getElementById('kfs-row-total-payable').textContent = formatINR(state.principal + state.computed.totalInterest + state.computed.totalFees);
-      document.getElementById('kfs-row-tenure').textContent = `${state.tenureMonths} Months (${yrs} Years)`;
-      document.getElementById('kfs-row-epis').textContent = `Monthly / ${state.tenureMonths} EPIs`;
-      document.getElementById('kfs-row-emi').textContent = formatINR(state.computed.emi);
-      document.getElementById('kfs-row-benchmark').textContent = state.rateMode === 'direct' 
-        ? `${state.finalRate.toFixed(2)}% p.a. (Floating)` 
-        : `Floating (${state.benchmarkRate.toFixed(2)}% B + ${state.spreadRate.toFixed(2)}% S)`;
-      document.getElementById('kfs-row-sheet-apr').textContent = `${state.computed.sheetApr.toFixed(2)}% p.a.`;
-      document.getElementById('kfs-row-effective-apr').textContent = `${state.computed.effectiveApr.toFixed(2)}% p.a.`;
-      document.getElementById('kfs-gen-date').textContent = formatDateIndian(new Date().toISOString().split('T')[0]);
+      // KFS Sheet
+      document.getElementById('kfs-sanctioned-amt').textContent = formatINR(state.principal);
+      document.getElementById('kfs-fees-amt').textContent = formatINR(state.computed.totalFees);
+      document.getElementById('kfs-net-amt').textContent = formatINR(state.computed.netDisbursed);
+      document.getElementById('kfs-interest-amt').textContent = formatINR(state.computed.totalInterest);
+      document.getElementById('kfs-total-paid-amt').textContent = formatINR(state.principal + state.computed.totalInterest + state.computed.totalFees);
+      document.getElementById('kfs-tenor-span').textContent = `${state.tenureMonths} Months (${yrs} Years)`;
+      document.getElementById('kfs-emi-amt').textContent = formatINR(state.computed.emi);
+      document.getElementById('kfs-rate-span').textContent = `${state.finalRate.toFixed(2)}% p.a.`;
+      document.getElementById('kfs-apr-span').textContent = `${state.computed.effectiveApr.toFixed(2)}% p.a.`;
     }
 
-    function formatDateIndian(dateStr) {
-      if (!dateStr) return '-';
-      const d = new Date(dateStr);
-      if (isNaN(d.getTime())) return '-';
-      const day = String(d.getDate()).padStart(2, '0');
-      const month = d.toLocaleString('en-IN', { month: 'short' });
-      const year = d.getFullYear();
-      return `${day}-${month}-${year}`;
-    }
-
-    // --- Rate Sensitivity Table Renderer ---
-    function renderRateSensitivityTable() {
-      const tbody = document.getElementById('sens-table-body');
-      tbody.innerHTML = '';
+    // Rate Sensitivity
+    function renderRateSensitivity() {
+      const container = document.getElementById('rate-sens-cards-container');
+      container.innerHTML = '';
 
       const P = state.principal;
       const n = state.tenureMonths;
       const baseR = state.finalRate;
       const baseEmi = state.computed.emi;
-      const deltaBps = state.deltaBps; // e.g. 25 bps = 0.25%
-      const deltaPercent = deltaBps / 100;
+      const deltaBps = state.deltaBps;
+      const deltaPct = deltaBps / 100;
 
-      // Scenarios to display
       const scenarios = [
-        { label: `-2x Delta (-${(deltaBps * 2)} bps)`, delta: -deltaPercent * 2, badgeClass: 'badge-minus' },
-        { label: `-1x Delta (-${deltaBps} bps)`, delta: -deltaPercent, badgeClass: 'badge-minus' },
-        { label: 'Current Base Rate', delta: 0, isCurrent: true, badgeClass: 'badge-neutral' },
-        { label: `+1x Delta (+${deltaBps} bps)`, delta: deltaPercent, isHighlight: true, badgeClass: 'badge-plus' },
-        { label: `+2x Delta (+${(deltaBps * 2)} bps)`, delta: deltaPercent * 2, badgeClass: 'badge-plus' },
-        { label: `+4x Delta (+${(deltaBps * 4)} bps)`, delta: deltaPercent * 4, badgeClass: 'badge-plus' }
+        { label: `Current Rate`, rate: baseR, isBase: true },
+        { label: `+${deltaBps} bps Rate Hike`, rate: parseFloat((baseR + deltaPct).toFixed(4)), isPlus: true },
+        { label: `-${deltaBps} bps Rate Cut`, rate: parseFloat((baseR - deltaPct).toFixed(4)), isMinus: true }
       ];
 
       scenarios.forEach(sc => {
-        const testR = parseFloat((baseR + sc.delta).toFixed(4));
-        if (testR <= 0) return;
+        if (sc.rate <= 0) return;
+        const revEmi = calculateEMI(P, sc.rate, n);
+        const emiDiff = revEmi - baseEmi;
+        const revTenure = calculateTenureForEMI(P, sc.rate, baseEmi);
+        const tenureDiff = isFinite(revTenure) ? revTenure - n : null;
 
-        // Fixed tenure: revised EMI
-        const revisedEmi = calculateEMI(P, testR, n);
-        const emiDiff = revisedEmi - baseEmi;
+        const card = document.createElement('div');
+        card.className = `sens-card ${sc.isPlus ? 'highlight' : ''}`;
 
-        // Fixed EMI: revised tenure
-        const revisedTenure = calculateTenureForEMI(P, testR, baseEmi);
-        const tenureDiff = isFinite(revisedTenure) ? revisedTenure - n : null;
+        const diffStr = emiDiff === 0 ? 'Base' : (emiDiff > 0 ? `+${formatINR(emiDiff)}/mo` : `-${formatINR(Math.abs(emiDiff))}/mo`);
+        const tenureStr = isFinite(revTenure) ? `${revTenure} EPIs` : 'Exceeds limit';
+        const tenDiffStr = tenureDiff === null || tenureDiff === 0 ? 'Base' : (tenureDiff > 0 ? `+${tenureDiff} Months` : `-${Math.abs(tenureDiff)} Months`);
 
-        const tr = document.createElement('tr');
-        if (sc.isCurrent) tr.className = 'current-rate-row';
-        if (sc.isHighlight) tr.className = 'highlight-test-row';
-
-        const diffEmiFormatted = emiDiff === 0 ? '—' : (emiDiff > 0 ? `+${formatINR(emiDiff)}` : `-${formatINR(Math.abs(emiDiff))}`);
-        let tenureCell = isFinite(revisedTenure) ? `${revisedTenure} EPIs` : '<span style="color:red">Exceeds limit</span>';
-        let tenureDiffFormatted = '—';
-        if (isFinite(revisedTenure)) {
-          if (tenureDiff > 0) tenureDiffFormatted = `+${tenureDiff} Months`;
-          else if (tenureDiff < 0) tenureDiffFormatted = `-${Math.abs(tenureDiff)} Months`;
-        }
-
-        tr.innerHTML = `
-          <td>
-            <span class="badge-bps ${sc.badgeClass}">${sc.label}</span>
-          </td>
-          <td>${testR.toFixed(2)}%</td>
-          <td style="font-weight: 700;">${formatINR(revisedEmi)}</td>
-          <td style="color: ${emiDiff > 0 ? 'var(--hdfc-red)' : (emiDiff < 0 ? 'var(--accent-emerald)' : 'inherit')}; font-weight: 600;">
-            ${diffEmiFormatted}
-          </td>
-          <td style="font-weight: 700;">${tenureCell}</td>
-          <td style="color: ${tenureDiff > 0 ? 'var(--hdfc-red)' : (tenureDiff < 0 ? 'var(--accent-emerald)' : 'inherit')}; font-weight: 600;">
-            ${tenureDiffFormatted}
-          </td>
+        card.innerHTML = `
+          <div class="sens-card-header">
+            <span class="sens-badge ${sc.isPlus ? 'plus' : (sc.isMinus ? 'minus' : 'base')}">${sc.label} (${sc.rate.toFixed(2)}%)</span>
+            <span style="font-weight: 700; font-size: 0.76rem; color: var(--hdfc-blue-dark);">${sc.rate.toFixed(2)}%</span>
+          </div>
+          <div class="sens-grid-2">
+            <div class="sens-item">
+              <div class="sens-item-label">Option A: Same Term</div>
+              <div class="sens-item-value">${formatINR(revEmi)}</div>
+              <div class="sens-item-sub" style="color: ${emiDiff > 0 ? 'var(--hdfc-red)' : (emiDiff < 0 ? 'var(--accent-emerald)' : 'inherit')};">${diffStr}</div>
+            </div>
+            <div class="sens-item">
+              <div class="sens-item-label">Option B: Same EMI</div>
+              <div class="sens-item-value">${tenureStr}</div>
+              <div class="sens-item-sub" style="color: ${tenureDiff > 0 ? 'var(--hdfc-red)' : (tenureDiff < 0 ? 'var(--accent-emerald)' : 'inherit')};">${tenDiffStr}</div>
+            </div>
+          </div>
         `;
-        tbody.appendChild(tr);
+        container.appendChild(card);
       });
     }
 
-    // --- Prepayment Simulation Renderer ---
-    function renderPrepaymentSimulation() {
-      const prepayAmount = parseFloat(document.getElementById('input-prepay-amount').value) || 0;
-      let prepayMonth = parseInt(document.getElementById('input-prepay-month').value) || 24;
-      prepayMonth = Math.max(1, Math.min(state.tenureMonths - 1, prepayMonth));
+    // Prepayment renderer
+    function renderPrepayment() {
+      const amt = parseFloat(document.getElementById('inp-prepay-amount').value) || 0;
+      let mo = parseInt(document.getElementById('inp-prepay-month').value) || 24;
+      mo = Math.max(1, Math.min(state.tenureMonths - 1, mo));
 
-      document.getElementById('preview-prepay-amount').textContent = numberToIndianWords(prepayAmount);
-      document.getElementById('preview-prepay-timing').textContent = `After ${(prepayMonth / 12).toFixed(1)} Years (Instalment #${prepayMonth})`;
+      document.getElementById('preview-prepay-words').textContent = toIndianWords(amt);
+      document.getElementById('preview-prepay-year').textContent = `After ${(mo / 12).toFixed(1)} Years (Instalment #${mo})`;
 
-      const sim = simulatePrepayment(
-        state.principal,
-        state.tenureMonths,
-        state.finalRate,
-        prepayMonth,
-        prepayAmount,
-        state.prepay.strategy
-      );
+      const sim = simulatePrepayment(state.principal, state.tenureMonths, state.finalRate, mo, amt, state.prepay.strategy);
 
-      document.getElementById('sim-interest-saved').textContent = formatINR(sim.interestSaved);
-
-      if (state.prepay.strategy === 'reduce_tenure') {
-        document.getElementById('sim-impact-label').textContent = 'Tenure Reduced';
-        document.getElementById('sim-impact-val').textContent = `${sim.monthsSaved} Months (${(sim.monthsSaved / 12).toFixed(1)} yrs)`;
-        
-        document.getElementById('sim-secondary-label').textContent = 'Revised Total Tenor';
-        document.getElementById('sim-secondary-val').textContent = `${sim.actualMonths} EPIs (${(sim.actualMonths / 12).toFixed(1)} yrs)`;
+      document.getElementById('disp-sim-savings').textContent = formatINR(sim.interestSaved);
+      if (state.prepay.strategy === 'tenure') {
+        document.getElementById('disp-sim-impact').textContent = `Tenure Cut: ${sim.monthsSaved} Months (${(sim.monthsSaved / 12).toFixed(1)} yrs)`;
+        document.getElementById('disp-sim-secondary').textContent = `New Total Tenor: ${sim.actualMonths} EPIs (${(sim.actualMonths / 12).toFixed(1)} yrs)`;
       } else {
-        document.getElementById('sim-impact-label').textContent = 'Monthly EMI Reduced';
-        const emiDrop = Math.max(0, sim.originalEmi - sim.revisedEmi);
-        document.getElementById('sim-impact-val').textContent = `-${formatINR(emiDrop)}/mo`;
-
-        document.getElementById('sim-secondary-label').textContent = 'New Monthly EMI';
-        document.getElementById('sim-secondary-val').textContent = formatINR(sim.revisedEmi);
+        const drop = Math.max(0, sim.originalEmi - sim.newEmi);
+        document.getElementById('disp-sim-impact').textContent = `EMI Reduced by: -${formatINR(drop)}/month`;
+        document.getElementById('disp-sim-secondary').textContent = `New Monthly EMI: ${formatINR(sim.newEmi)}`;
       }
     }
 
-    // --- Amortisation Schedule Table Renderer ---
+    // Schedule Table renderer
     function renderScheduleTable() {
       const tbody = document.getElementById('schedule-tbody');
       tbody.innerHTML = '';
+      const sched = state.computed.schedule;
+      if (!sched || !sched.length) return;
 
-      const schedule = state.computed.schedule;
-      if (!schedule || schedule.length === 0) return;
-
-      const totalRows = schedule.length;
-      document.getElementById('pag-total').textContent = totalRows;
-
+      const totalRows = sched.length;
       const pageSize = state.pageSize;
       const totalPages = Math.ceil(totalRows / pageSize);
       state.currentPage = Math.max(1, Math.min(state.currentPage, totalPages));
 
-      const startIndex = (state.currentPage - 1) * pageSize;
-      const endIndex = Math.min(startIndex + pageSize, totalRows);
+      const start = (state.currentPage - 1) * pageSize;
+      const end = Math.min(start + pageSize, totalRows);
 
-      document.getElementById('pag-start').textContent = startIndex + 1;
-      document.getElementById('pag-end').textContent = endIndex;
-      document.getElementById('pag-current-info').textContent = `Page ${state.currentPage} of ${totalPages}`;
+      document.getElementById('txt-pag-info').textContent = `Showing ${start + 1} - ${end} of ${totalRows}`;
+      document.getElementById('btn-pag-prev').disabled = state.currentPage === 1;
+      document.getElementById('btn-pag-next').disabled = state.currentPage === totalPages;
 
-      document.getElementById('btn-page-first').disabled = state.currentPage === 1;
-      document.getElementById('btn-page-prev').disabled = state.currentPage === 1;
-      document.getElementById('btn-page-next').disabled = state.currentPage === totalPages;
-      document.getElementById('btn-page-last').disabled = state.currentPage === totalPages;
-
-      // Slice page rows
-      const pageRows = schedule.slice(startIndex, endIndex);
-
-      for (let i = 0; i < pageRows.length; i++) {
-        const row = pageRows[i];
+      const pageRows = sched.slice(start, end);
+      pageRows.forEach(r => {
         const tr = document.createElement('tr');
-        if (row.instNo === 0) tr.className = 'row-0-highlight';
-
+        if (r.instNo === 0) tr.className = 'highlight-row';
         tr.innerHTML = `
-          <td style="font-weight: 700;">#${row.instNo}</td>
-          <td style="font-family: inherit; font-size: 0.75rem;">${row.dueDate}</td>
-          <td>${formatNumber(row.opening)}</td>
-          <td style="color: var(--accent-emerald); font-weight: 600;">${formatNumber(row.principal)}</td>
-          <td style="color: var(--accent-amber); font-weight: 600;">${formatNumber(row.interest)}</td>
-          <td style="font-weight: 700; color: var(--hdfc-blue-dark);">${formatNumber(row.instalment)}</td>
-          <td>${formatNumber(row.closing)}</td>
+          <td style="text-align: center; font-weight: 700;">#${r.instNo}</td>
+          <td>M${r.instNo + 1}</td>
+          <td>${formatNum(r.opening)}</td>
+          <td style="color: var(--accent-emerald);">${formatNum(r.principal)}</td>
+          <td style="color: var(--accent-amber);">${formatNum(r.interest)}</td>
+          <td style="font-weight: 700; color: var(--hdfc-blue-dark);">${formatNum(r.instalment)}</td>
+          <td>${formatNum(r.closing)}</td>
         `;
         tbody.appendChild(tr);
-      }
-
-      // Schedule Footers
-      document.getElementById('sch-total-principal').textContent = formatINR(state.principal);
-      document.getElementById('sch-total-interest').textContent = formatINR(state.computed.totalInterest);
-      document.getElementById('sch-total-paid').textContent = formatINR(state.computed.totalPayment);
+      });
     }
 
-    // --- CSV Exporter ---
-    function exportScheduleCSV() {
-      const schedule = state.computed.schedule;
-      if (!schedule || schedule.length === 0) return;
-
+    // CSV Download
+    function downloadCSV() {
+      const sched = state.computed.schedule;
+      if (!sched || !sched.length) return;
       let csv = 'data:text/csv;charset=utf-8,';
-      csv += 'HDFC Bank Key Fact Statement - Amortisation Schedule\n';
-      csv += `Borrower Name,${state.borrowerName}\n`;
-      csv += `Loan Facility,${state.loanType}\n`;
-      csv += `Sanctioned Amount,${state.principal}\n`;
-      csv += `Interest Rate,${state.finalRate}% (Benchmark ${state.benchmarkRate}% + Spread ${state.spreadRate}%)\n`;
-      csv += `Tenor Months,${state.tenureMonths}\n`;
-      csv += `Monthly EMI,${state.computed.emi}\n`;
-      csv += `Effective APR (IRR),${state.computed.effectiveApr.toFixed(2)}%\n\n`;
-
-      csv += 'Instalment No.,Due Date,Outstanding Principal (Opening),Principal,Interest,Instalment,Closing Principal\n';
-
-      schedule.forEach(row => {
-        csv += `${row.instNo},${row.dueDate},${row.opening},${row.principal},${row.interest},${row.instalment},${row.closing}\n`;
+      csv += 'HDFC Bank KFS Amortisation Schedule\n';
+      csv += `Loan Amount,${state.principal}\n`;
+      csv += `Tenure Months,${state.tenureMonths}\n`;
+      csv += `Interest Rate,${state.finalRate}%\n`;
+      csv += `Monthly EMI,${state.computed.emi}\n\n`;
+      csv += 'Instalment No,Opening Principal,Principal,Interest,Instalment,Closing Principal\n';
+      sched.forEach(r => {
+        csv += `${r.instNo},${r.opening},${r.principal},${r.interest},${r.instalment},${r.closing}\n`;
       });
-
-      csv += `Totals,,${state.principal},${state.principal},${state.computed.totalInterest},${state.computed.totalPayment},0\n`;
-
-      const encodedUri = encodeURI(csv);
+      const uri = encodeURI(csv);
       const link = document.createElement('a');
-      link.setAttribute('href', encodedUri);
-      link.setAttribute('download', `HDFC_KFS_Schedule_${state.tenureMonths}M_${state.principal}.csv`);
+      link.setAttribute('href', uri);
+      link.setAttribute('download', `HDFC_KFS_Schedule_${state.tenureMonths}M.csv`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
     }
 
-    // --- Event Listeners Initialization ---
-    function initEventListeners() {
-      // Inputs Live Update
-      const liveInputs = [
-        'input-loan-amount',
-        'input-loan-tenure',
-        'input-interest-rate',
-        'input-benchmark-rate',
-        'input-spread-rate',
-        'input-borrower-name',
-        'select-loan-type',
-        'input-kfs-date',
-        'input-first-emi-date',
-        'fee-proc-lender',
-        'fee-proc-third',
-        'fee-ins-lender',
-        'fee-ins-third',
-        'fee-admin-lender',
-        'fee-admin-third',
-        'fee-cersai-lender',
-        'fee-cersai-third',
-        'fee-other-lender',
-        'fee-other-third',
-        'input-custom-bps',
-        'input-prepay-amount',
-        'input-prepay-month'
-      ];
-
-      liveInputs.forEach(id => {
+    // Event Listeners setup
+    function setupEvents() {
+      // Live Inputs
+      ['inp-loan-amount', 'inp-loan-tenure', 'inp-interest-rate', 'inp-custom-bps', 'fee-inp-proc', 'fee-inp-cersai', 'inp-prepay-amount', 'inp-prepay-month'].forEach(id => {
         const el = document.getElementById(id);
         if (el) {
-          el.addEventListener('input', recalculateAll);
-          el.addEventListener('change', recalculateAll);
+          el.addEventListener('input', recalculate);
+          el.addEventListener('change', recalculate);
         }
       });
 
       // GST Toggle
-      document.getElementById('chk-gst-toggle').addEventListener('change', recalculateAll);
+      document.getElementById('chk-gst').addEventListener('change', recalculate);
 
       // Sliders
-      document.getElementById('slider-loan-amount').addEventListener('input', e => {
-        document.getElementById('input-loan-amount').value = e.target.value;
-        recalculateAll();
+      document.getElementById('range-loan-amount').addEventListener('input', e => {
+        document.getElementById('inp-loan-amount').value = e.target.value;
+        recalculate();
       });
 
-      document.getElementById('slider-loan-tenure').addEventListener('input', e => {
-        if (state.tenureInputMode === 'years') {
-          document.getElementById('input-loan-tenure').value = (e.target.value / 12).toFixed(1);
+      document.getElementById('range-loan-tenure').addEventListener('input', e => {
+        if (state.tenureMode === 'years') {
+          document.getElementById('inp-loan-tenure').value = (e.target.value / 12).toFixed(1);
         } else {
-          document.getElementById('input-loan-tenure').value = e.target.value;
+          document.getElementById('inp-loan-tenure').value = e.target.value;
         }
-        recalculateAll();
+        recalculate();
       });
 
-      // Interest Rate Slider
-      document.getElementById('slider-interest-rate').addEventListener('input', e => {
-        document.getElementById('input-interest-rate').value = e.target.value;
-        recalculateAll();
+      document.getElementById('range-interest-rate').addEventListener('input', e => {
+        document.getElementById('inp-interest-rate').value = e.target.value;
+        recalculate();
       });
 
-      // Rate Mode Toggle (Direct Rate vs B + S Split)
-      const btnRateDirect = document.getElementById('toggle-rate-direct');
-      const btnRateSplit = document.getElementById('toggle-rate-split');
-      const contRateDirect = document.getElementById('rate-direct-container');
-      const contRateSplit = document.getElementById('rate-split-container');
+      // Months / Years Switch
+      const bM = document.getElementById('btn-tenure-months');
+      const bY = document.getElementById('btn-tenure-years');
+      const tInp = document.getElementById('inp-loan-tenure');
+      const tSuf = document.getElementById('lbl-tenure-suffix');
 
-      btnRateDirect.addEventListener('click', () => {
-        if (state.rateMode === 'direct') return;
-        state.rateMode = 'direct';
-        btnRateDirect.classList.add('active');
-        btnRateSplit.classList.remove('active');
-        contRateDirect.style.display = 'block';
-        contRateSplit.style.display = 'none';
-        document.getElementById('input-interest-rate').value = state.finalRate.toFixed(2);
-        recalculateAll();
+      bM.addEventListener('click', () => {
+        if (state.tenureMode === 'months') return;
+        state.tenureMode = 'months';
+        bM.classList.add('active');
+        bY.classList.remove('active');
+        tSuf.textContent = 'Months';
+        tInp.value = state.tenureMonths;
+        recalculate();
       });
 
-      btnRateSplit.addEventListener('click', () => {
-        if (state.rateMode === 'split') return;
-        state.rateMode = 'split';
-        btnRateSplit.classList.add('active');
-        btnRateDirect.classList.remove('active');
-        contRateDirect.style.display = 'none';
-        contRateSplit.style.display = 'block';
-        recalculateAll();
+      bY.addEventListener('click', () => {
+        if (state.tenureMode === 'years') return;
+        state.tenureMode = 'years';
+        bY.classList.add('active');
+        bM.classList.remove('active');
+        tSuf.textContent = 'Years';
+        tInp.value = (state.tenureMonths / 12).toFixed(1);
+        recalculate();
       });
 
-      // Months / Years Toggle
-      const btnMonths = document.getElementById('toggle-tenure-months');
-      const btnYears = document.getElementById('toggle-tenure-years');
-      const tenureUnit = document.getElementById('tenure-unit-label');
-      const inputTenure = document.getElementById('input-loan-tenure');
+      // B+S Split Expandable
+      const btnToggleBS = document.getElementById('btn-toggle-bs-split');
+      const bsCont = document.getElementById('collapsible-bs-split');
+      const txtBS = document.getElementById('txt-bs-toggle');
 
-      btnMonths.addEventListener('click', () => {
-        if (state.tenureInputMode === 'months') return;
-        state.tenureInputMode = 'months';
-        btnMonths.classList.add('active');
-        btnYears.classList.remove('active');
-        tenureUnit.textContent = 'Months';
-        inputTenure.value = state.tenureMonths;
-        inputTenure.step = '1';
-        inputTenure.max = '480';
-        recalculateAll();
+      btnToggleBS.addEventListener('click', () => {
+        if (bsCont.style.display === 'none') {
+          bsCont.style.display = 'block';
+          txtBS.textContent = 'Hide B+S Split ▴';
+        } else {
+          bsCont.style.display = 'none';
+          txtBS.textContent = 'Show B+S Split ▾';
+        }
       });
 
-      btnYears.addEventListener('click', () => {
-        if (state.tenureInputMode === 'years') return;
-        state.tenureInputMode = 'years';
-        btnYears.classList.add('active');
-        btnMonths.classList.remove('active');
-        tenureUnit.textContent = 'Years';
-        inputTenure.value = (state.tenureMonths / 12).toFixed(1);
-        inputTenure.step = '0.5';
-        inputTenure.max = '40';
-        recalculateAll();
+      // Benchmark & Spread live sync
+      const inpB = document.getElementById('inp-benchmark-rate');
+      const inpS = document.getElementById('inp-spread-rate');
+      [inpB, inpS].forEach(el => {
+        el.addEventListener('input', () => {
+          const b = parseFloat(inpB.value) || 0;
+          const s = parseFloat(inpS.value) || 0;
+          document.getElementById('inp-interest-rate').value = (b + s).toFixed(2);
+          recalculate();
+        });
       });
 
       // Presets
-      document.getElementById('btn-preset-home').addEventListener('click', () => {
-        document.getElementById('btn-preset-home').classList.add('active');
-        document.getElementById('btn-preset-insurance').classList.remove('active');
+      const chipHome = document.getElementById('chip-preset-home');
+      const chipIns = document.getElementById('chip-preset-insurance');
 
-        document.getElementById('input-loan-amount').value = 20000000;
-        document.getElementById('select-loan-type').value = 'Home Loan';
-        
+      chipHome.addEventListener('click', () => {
+        chipHome.classList.add('active');
+        chipIns.classList.remove('active');
+        document.getElementById('inp-loan-amount').value = 20000000;
         state.tenureMonths = 360;
-        if (state.tenureInputMode === 'years') {
-          inputTenure.value = 30;
-        } else {
-          inputTenure.value = 360;
-        }
-
-        document.getElementById('input-interest-rate').value = 7.75;
-        document.getElementById('slider-interest-rate').value = 7.75;
-        document.getElementById('input-benchmark-rate').value = 5.25;
-        document.getElementById('input-spread-rate').value = 2.50;
-
-        // Reset default fees
-        document.getElementById('fee-proc-lender').value = 9000;
-        document.getElementById('fee-proc-third').value = 0;
-        document.getElementById('fee-cersai-third').value = 100;
-        document.getElementById('chk-gst-toggle').checked = false;
-
-        recalculateAll();
+        tInp.value = state.tenureMode === 'years' ? 30 : 360;
+        document.getElementById('inp-interest-rate').value = 7.75;
+        document.getElementById('fee-inp-proc').value = 9000;
+        document.getElementById('fee-inp-cersai').value = 100;
+        document.getElementById('chk-gst').checked = false;
+        recalculate();
       });
 
-      document.getElementById('btn-preset-insurance').addEventListener('click', () => {
-        document.getElementById('btn-preset-insurance').classList.add('active');
-        document.getElementById('btn-preset-home').classList.remove('active');
-
-        document.getElementById('input-loan-amount').value = 1596020;
-        document.getElementById('select-loan-type').value = 'Insurance Funding';
-
+      chipIns.addEventListener('click', () => {
+        chipIns.classList.add('active');
+        chipHome.classList.remove('active');
+        document.getElementById('inp-loan-amount').value = 1596020;
         state.tenureMonths = 240;
-        if (state.tenureInputMode === 'years') {
-          inputTenure.value = 20;
-        } else {
-          inputTenure.value = 240;
-        }
-
-        document.getElementById('input-interest-rate').value = 7.25;
-        document.getElementById('slider-interest-rate').value = 7.25;
-        document.getElementById('input-benchmark-rate').value = 5.25;
-        document.getElementById('input-spread-rate').value = 2.00;
-
-        // Reset default fees
-        document.getElementById('fee-proc-lender').value = 9000;
-        document.getElementById('fee-proc-third').value = 0;
-        document.getElementById('fee-cersai-third').value = 100;
-        document.getElementById('chk-gst-toggle').checked = false;
-
-        recalculateAll();
+        tInp.value = state.tenureMode === 'years' ? 20 : 240;
+        document.getElementById('inp-interest-rate').value = 7.25;
+        document.getElementById('fee-inp-proc').value = 9000;
+        document.getElementById('fee-inp-cersai').value = 100;
+        document.getElementById('chk-gst').checked = false;
+        recalculate();
       });
 
-      // Prepayment Strategy Toggles
-      const btnStratTenure = document.getElementById('btn-strat-reduce-tenure');
-      const btnStratEmi = document.getElementById('btn-strat-reduce-emi');
-
-      btnStratTenure.addEventListener('click', () => {
-        state.prepay.strategy = 'reduce_tenure';
-        btnStratTenure.classList.add('active');
-        btnStratEmi.classList.remove('active');
-        renderPrepaymentSimulation();
+      // Mobile Segmented View Tabs
+      const tabBtns = document.querySelectorAll('.view-tab-btn');
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          tabBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const target = btn.getAttribute('data-target');
+          document.querySelectorAll('.view-panel').forEach(p => {
+            p.classList.toggle('active', p.id === target);
+          });
+          if (target === 'view-charts') updateCharts();
+        });
       });
 
-      btnStratEmi.addEventListener('click', () => {
-        state.prepay.strategy = 'reduce_emi';
-        btnStratEmi.classList.add('active');
-        btnStratTenure.classList.remove('active');
-        renderPrepaymentSimulation();
+      // Prepayment Strategy Switch
+      const btnST = document.getElementById('btn-strat-tenure');
+      const btnSE = document.getElementById('btn-strat-emi');
+
+      btnST.addEventListener('click', () => {
+        state.prepay.strategy = 'tenure';
+        btnST.classList.add('active');
+        btnSE.classList.remove('active');
+        renderPrepayment();
       });
 
-      // Schedule Start Index Toggle (0 vs 1)
-      const btnIdx0 = document.getElementById('btn-index-0');
-      const btnIdx1 = document.getElementById('btn-index-1');
+      btnSE.addEventListener('click', () => {
+        state.prepay.strategy = 'emi';
+        btnSE.classList.add('active');
+        btnST.classList.remove('active');
+        renderPrepayment();
+      });
 
-      btnIdx0.addEventListener('click', () => {
+      // Schedule 0 vs 1 indexing
+      const bS0 = document.getElementById('btn-sched-0');
+      const bS1 = document.getElementById('btn-sched-1');
+
+      bS0.addEventListener('click', () => {
         state.scheduleStartIndex = 0;
-        btnIdx0.classList.add('active');
-        btnIdx1.classList.remove('active');
-        recalculateAll();
+        bS0.classList.add('active');
+        bS1.classList.remove('active');
+        recalculate();
       });
 
-      btnIdx1.addEventListener('click', () => {
+      bS1.addEventListener('click', () => {
         state.scheduleStartIndex = 1;
-        btnIdx1.classList.add('active');
-        btnIdx0.classList.remove('active');
-        recalculateAll();
+        bS1.classList.add('active');
+        bS0.classList.remove('active');
+        recalculate();
       });
 
-      // Schedule Page Size
-      document.getElementById('select-page-size').addEventListener('change', e => {
+      // Page size
+      document.getElementById('sel-page-size').addEventListener('change', e => {
         state.pageSize = parseInt(e.target.value) || 360;
         state.currentPage = 1;
         renderScheduleTable();
       });
 
-      // Schedule Pagination Buttons
-      document.getElementById('btn-page-first').addEventListener('click', () => {
-        state.currentPage = 1;
-        renderScheduleTable();
-      });
-
-      document.getElementById('btn-page-prev').addEventListener('click', () => {
+      document.getElementById('btn-pag-prev').addEventListener('click', () => {
         if (state.currentPage > 1) {
           state.currentPage--;
           renderScheduleTable();
         }
       });
 
-      document.getElementById('btn-page-next').addEventListener('click', () => {
-        const totalPages = Math.ceil(state.computed.schedule.length / state.pageSize);
-        if (state.currentPage < totalPages) {
+      document.getElementById('btn-pag-next').addEventListener('click', () => {
+        const totalP = Math.ceil(state.computed.schedule.length / state.pageSize);
+        if (state.currentPage < totalP) {
           state.currentPage++;
           renderScheduleTable();
         }
       });
 
-      document.getElementById('btn-page-last').addEventListener('click', () => {
-        const totalPages = Math.ceil(state.computed.schedule.length / state.pageSize);
-        state.currentPage = totalPages;
-        renderScheduleTable();
-      });
-
-      // Jump to Row
-      document.getElementById('input-jump-row').addEventListener('change', e => {
-        const targetRow = parseInt(e.target.value);
-        if (!isNaN(targetRow)) {
-          const rowIdx = state.computed.schedule.findIndex(r => r.instNo === targetRow);
-          if (rowIdx !== -1) {
-            state.currentPage = Math.floor(rowIdx / state.pageSize) + 1;
-            renderScheduleTable();
-          }
-        }
-      });
-
-      // View Tabs Navigation
-      const tabBtns = document.querySelectorAll('.tab-item-btn');
-      tabBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          tabBtns.forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-
-          const targetTabId = btn.getAttribute('data-tab');
-          document.querySelectorAll('.tab-content-panel').forEach(panel => {
-            if (panel.id === targetTabId) {
-              panel.style.display = 'block';
-            } else {
-              panel.style.display = 'none';
-            }
-          });
-
-          if (targetTabId === 'tab-overview') {
-            updateCharts();
-          }
-        });
-      });
-
-      // CSV Export
-      document.getElementById('btn-export-csv').addEventListener('click', exportScheduleCSV);
-      document.getElementById('btn-download-schedule-csv').addEventListener('click', exportScheduleCSV);
-
-      // Print Button
-      document.getElementById('btn-print-kfs').addEventListener('click', () => {
-        // Switch to KFS tab first
-        document.querySelector('[data-tab="tab-kfs-statement"]').click();
+      // CSV & Print
+      document.getElementById('btn-quick-csv').addEventListener('click', downloadCSV);
+      document.getElementById('btn-download-csv-tab').addEventListener('click', downloadCSV);
+      document.getElementById('btn-quick-print').addEventListener('click', () => {
+        document.querySelector('[data-target="view-kfs-sheet"]').click();
         setTimeout(() => window.print(), 200);
       });
     }
 
-    // --- Window Load Initialization ---
+    // Initialization
     window.addEventListener('DOMContentLoaded', () => {
-      // Default dates
-      const today = new Date().toISOString().split('T')[0];
-      document.getElementById('input-kfs-date').value = today;
-      document.getElementById('input-first-emi-date').value = getNextMonthFirstDate();
-
-      initCharts();
-      initEventListeners();
-      recalculateAll();
+      initMobileCharts();
+      setupEvents();
+      recalculate();
     });
   </script>
 </body>
