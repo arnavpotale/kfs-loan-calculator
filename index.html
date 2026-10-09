@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>HDFC Bank Key Fact Statement (KFS) Loan Calculator</title>
-  <meta name="description" content="Mobile-first HDFC Bank Key Fact Statement (KFS) Loan Amortisation Calculator. Live EMI, rate impact, fee structure, and prepayment optimizer.">
+  <title>Key Fact Statement (KFS) Loan Calculator</title>
+  <meta name="description" content="Mobile-first Key Fact Statement (KFS) Loan Amortisation Calculator. Live EMI, rate impact, fee structure, and prepayment optimizer.">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,12 +16,12 @@
 
   <style>
     :root {
-      --hdfc-blue: #004c8f;
-      --hdfc-blue-dark: #002e6e;
-      --hdfc-blue-light: #eef5fc;
-      --hdfc-blue-gradient: linear-gradient(135deg, #004c8f 0%, #00224d 100%);
-      --hdfc-red: #ed1c24;
-      --hdfc-red-light: #fef2f2;
+      --KFS-blue: #004c8f;
+      --KFS-blue-dark: #002e6e;
+      --KFS-blue-light: #eef5fc;
+      --KFS-blue-gradient: linear-gradient(135deg, #004c8f 0%, #00224d 100%);
+      --KFS-red: #ed1c24;
+      --KFS-red-light: #fef2f2;
 
       --bg-slate: #f6f8fb;
       --card-bg: #ffffff;
@@ -98,7 +98,7 @@
     .logo-badge {
       width: 36px;
       height: 36px;
-      background: var(--hdfc-blue-gradient);
+      background: var(--KFS-blue-gradient);
       border-radius: var(--radius-sm);
       display: flex;
       align-items: center;
@@ -119,13 +119,13 @@
       left: 0;
       right: 0;
       height: 3px;
-      background: var(--hdfc-red);
+      background: var(--KFS-red);
     }
 
     .brand-text h1 {
       font-size: 0.98rem;
       font-weight: 800;
-      color: var(--hdfc-blue-dark);
+      color: var(--KFS-blue-dark);
       letter-spacing: -0.3px;
       line-height: 1.2;
     }
@@ -149,7 +149,7 @@
       border-radius: var(--radius-sm);
       font-size: 0.72rem;
       font-weight: 700;
-      color: var(--hdfc-blue-dark);
+      color: var(--KFS-blue-dark);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -207,15 +207,15 @@
     }
 
     .preset-chip.active {
-      background: var(--hdfc-blue);
+      background: var(--KFS-blue);
       color: #ffffff;
-      border-color: var(--hdfc-blue);
+      border-color: var(--KFS-blue);
       box-shadow: 0 3px 8px rgba(0, 76, 143, 0.25);
     }
 
     /* Hero Live EMI Card */
     .hero-emi-card {
-      background: var(--hdfc-blue-gradient);
+      background: var(--KFS-blue-gradient);
       color: #ffffff;
       border-radius: var(--radius-lg);
       padding: 18px 16px;
@@ -311,7 +311,7 @@
     .card-title-text {
       font-size: 0.88rem;
       font-weight: 800;
-      color: var(--hdfc-blue-dark);
+      color: var(--KFS-blue-dark);
       display: flex;
       align-items: center;
       gap: 6px;
@@ -376,7 +376,7 @@
     }
 
     .touch-input:focus {
-      border-color: var(--hdfc-blue);
+      border-color: var(--KFS-blue);
       box-shadow: 0 0 0 3px rgba(0, 76, 143, 0.12);
     }
 
@@ -389,7 +389,7 @@
     }
 
     .touch-input.is-invalid {
-      border-color: var(--hdfc-red);
+      border-color: var(--KFS-red);
       background: #fff8f8;
     }
 
@@ -399,14 +399,14 @@
       align-items: center;
       font-size: 0.72rem;
       font-weight: 600;
-      color: var(--hdfc-blue);
+      color: var(--KFS-blue);
       margin-top: 5px;
     }
 
     .range-slider-touch {
       width: 100%;
       height: 24px;
-      accent-color: var(--hdfc-blue);
+      accent-color: var(--KFS-blue);
       margin-top: 6px;
       cursor: pointer;
     }
@@ -433,7 +433,7 @@
 
     .mini-switch-btn.active {
       background: #ffffff;
-      color: var(--hdfc-blue);
+      color: var(--KFS-blue);
       box-shadow: var(--shadow-sm);
     }
 
@@ -441,7 +441,7 @@
     .expand-link-btn {
       background: none;
       border: none;
-      color: var(--hdfc-blue);
+      color: var(--KFS-blue);
       font-size: 0.74rem;
       font-weight: 700;
       cursor: pointer;
@@ -484,9 +484,9 @@
     }
 
     .view-tab-btn.active {
-      background: var(--hdfc-blue);
+      background: var(--KFS-blue);
       color: #ffffff;
-      border-color: var(--hdfc-blue);
+      border-color: var(--KFS-blue);
       box-shadow: 0 2px 6px rgba(0, 76, 143, 0.2);
     }
 
@@ -636,7 +636,7 @@
     }
 
     input[type="checkbox"]:checked + .toggle-pill {
-      background: var(--hdfc-blue);
+      background: var(--KFS-blue);
     }
 
     input[type="checkbox"]:checked + .toggle-pill::after {
@@ -719,7 +719,7 @@
     /* KFS Sheet Compact */
     .kfs-sheet-mobile {
       background: #ffffff;
-      border: 1.5px solid var(--hdfc-blue);
+      border: 1.5px solid var(--KFS-blue);
       border-radius: var(--radius-lg);
       padding: 16px;
       margin-top: 8px;
@@ -767,7 +767,7 @@
     <div class="mobile-app-wrapper">
       <div class="header-content">
         <div class="brand-group">
-          <div class="logo-badge">HDFC</div>
+          <div class="logo-badge">KFS</div>
           <div class="brand-text">
             <h1>KFS Calculator</h1>
             <p>Harmonized Retail Loan Statement</p>
@@ -791,7 +791,7 @@
     <!-- Disclaimer Banner -->
     <div class="disclaimer-banner">
       <span>ℹ️</span>
-      <span><strong>Illustrative Calculator:</strong> Based on official HDFC Bank KFS & RBI disclosure formulas.</span>
+      <span><strong>Illustrative Calculator:</strong> Based on official Retail Lending Bank KFS & RBI disclosure formulas.</span>
     </div>
 
     <!-- Quick Presets Carousel -->
@@ -845,7 +845,7 @@
       <div class="field-group">
         <div class="field-label-row">
           <label class="field-label" for="inp-loan-amount">Loan Amount (₹)</label>
-          <span style="font-size: 0.7rem; font-weight: 600; color: var(--hdfc-blue);" id="disp-loan-crores">2.00 Crore</span>
+          <span style="font-size: 0.7rem; font-weight: 600; color: var(--KFS-blue);" id="disp-loan-crores">2.00 Crore</span>
         </div>
         <div class="input-touch-wrap">
           <span class="input-prefix">₹</span>
@@ -1000,8 +1000,8 @@
           </div>
 
           <div class="fee-row-item" style="border-top: 2px solid var(--card-border); margin-top: 6px; padding-top: 10px;">
-            <div style="font-weight: 800; font-size: 0.9rem; color: var(--hdfc-blue-dark);">Total Upfront Fees</div>
-            <div style="font-weight: 800; font-size: 1rem; color: var(--hdfc-blue-dark); font-family: 'JetBrains Mono', monospace;" id="disp-fees-total">₹ 9,100</div>
+            <div style="font-weight: 800; font-size: 0.9rem; color: var(--KFS-blue-dark);">Total Upfront Fees</div>
+            <div style="font-weight: 800; font-size: 1rem; color: var(--KFS-blue-dark); font-family: 'JetBrains Mono', monospace;" id="disp-fees-total">₹ 9,100</div>
           </div>
 
           <div class="fee-row-item">
@@ -1129,8 +1129,8 @@
     <!-- VIEW 6: Official KFS Sheet -->
     <div class="view-panel" id="view-kfs-sheet">
       <div class="kfs-sheet-mobile" id="printable-kfs-sheet">
-        <div style="border-bottom: 2px solid var(--hdfc-blue-light); padding-bottom: 10px; margin-bottom: 10px;">
-          <h2 style="font-size: 1rem; font-weight: 800; color: var(--hdfc-blue-dark);">HDFC BANK LIMITED</h2>
+        <div style="border-bottom: 2px solid var(--KFS-blue-light); padding-bottom: 10px; margin-bottom: 10px;">
+          <h2 style="font-size: 1rem; font-weight: 800; color: var(--KFS-blue-dark);">Retail Lending Bank LIMITED</h2>
           <div style="font-size: 0.75rem; font-weight: 700; color: #475569;">KEY FACT STATEMENT (KFS) - RETAIL LOANS</div>
           <div style="font-size: 0.68rem; color: var(--text-muted);">As per RBI Harmonized Disclosure Directions</div>
         </div>
@@ -1171,7 +1171,7 @@
           <span>Loan Tenor</span>
           <span id="kfs-tenor-span">360 Months (30 Years)</span>
         </div>
-        <div class="kfs-mobile-row bold-row" style="color: var(--hdfc-red);">
+        <div class="kfs-mobile-row bold-row" style="color: var(--KFS-red);">
           <span>Equated Monthly Instalment (EMI)</span>
           <span id="kfs-emi-amt">₹ 1,43,283</span>
         </div>
@@ -1194,7 +1194,7 @@
 
   <script>
     /**
-     * Mobile-first HDFC Bank Key Fact Statement Loan Calculator
+     * Mobile-first Key Fact Statement Loan Calculator
      * Ultra-lightweight Vanilla JS Engine
      */
 
@@ -1603,18 +1603,18 @@
         card.innerHTML = `
           <div class="sens-card-header">
             <span class="sens-badge ${sc.isPlus ? 'plus' : (sc.isMinus ? 'minus' : 'base')}">${sc.label} (${sc.rate.toFixed(2)}%)</span>
-            <span style="font-weight: 700; font-size: 0.76rem; color: var(--hdfc-blue-dark);">${sc.rate.toFixed(2)}%</span>
+            <span style="font-weight: 700; font-size: 0.76rem; color: var(--KFS-blue-dark);">${sc.rate.toFixed(2)}%</span>
           </div>
           <div class="sens-grid-2">
             <div class="sens-item">
               <div class="sens-item-label">Option A: Same Term</div>
               <div class="sens-item-value">${formatINR(revEmi)}</div>
-              <div class="sens-item-sub" style="color: ${emiDiff > 0 ? 'var(--hdfc-red)' : (emiDiff < 0 ? 'var(--accent-emerald)' : 'inherit')};">${diffStr}</div>
+              <div class="sens-item-sub" style="color: ${emiDiff > 0 ? 'var(--KFS-red)' : (emiDiff < 0 ? 'var(--accent-emerald)' : 'inherit')};">${diffStr}</div>
             </div>
             <div class="sens-item">
               <div class="sens-item-label">Option B: Same EMI</div>
               <div class="sens-item-value">${tenureStr}</div>
-              <div class="sens-item-sub" style="color: ${tenureDiff > 0 ? 'var(--hdfc-red)' : (tenureDiff < 0 ? 'var(--accent-emerald)' : 'inherit')};">${tenDiffStr}</div>
+              <div class="sens-item-sub" style="color: ${tenureDiff > 0 ? 'var(--KFS-red)' : (tenureDiff < 0 ? 'var(--accent-emerald)' : 'inherit')};">${tenDiffStr}</div>
             </div>
           </div>
         `;
@@ -1673,7 +1673,7 @@
           <td>${formatNum(r.opening)}</td>
           <td style="color: var(--accent-emerald);">${formatNum(r.principal)}</td>
           <td style="color: var(--accent-amber);">${formatNum(r.interest)}</td>
-          <td style="font-weight: 700; color: var(--hdfc-blue-dark);">${formatNum(r.instalment)}</td>
+          <td style="font-weight: 700; color: var(--KFS-blue-dark);">${formatNum(r.instalment)}</td>
           <td>${formatNum(r.closing)}</td>
         `;
         tbody.appendChild(tr);
@@ -1685,7 +1685,7 @@
       const sched = state.computed.schedule;
       if (!sched || !sched.length) return;
       let csv = 'data:text/csv;charset=utf-8,';
-      csv += 'HDFC Bank KFS Amortisation Schedule\n';
+      csv += 'Retail Lending Bank KFS Amortisation Schedule\n';
       csv += `Loan Amount,${state.principal}\n`;
       csv += `Tenure Months,${state.tenureMonths}\n`;
       csv += `Interest Rate,${state.finalRate}%\n`;
@@ -1697,7 +1697,7 @@
       const uri = encodeURI(csv);
       const link = document.createElement('a');
       link.setAttribute('href', uri);
-      link.setAttribute('download', `HDFC_KFS_Schedule_${state.tenureMonths}M.csv`);
+      link.setAttribute('download', `KFS_KFS_Schedule_${state.tenureMonths}M.csv`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);

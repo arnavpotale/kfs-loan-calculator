@@ -1,6 +1,6 @@
-# HDFC Bank Key Fact Statement (KFS) Loan Calculator
+# Key Fact Statement (KFS) Loan Calculator
 
-A clean, modern, responsive single-page web application (HTML5 + CSS3 + Vanilla JavaScript) that recreates an official-grade **HDFC Bank Key Fact Statement (KFS)** loan amortisation and APR disclosure calculator.
+A clean, modern, responsive single-page web application (HTML5 + CSS3 + Vanilla JavaScript) that recreates an official-grade **Key Fact Statement (KFS)** loan amortisation and APR disclosure calculator.
 
 Compliant with RBI harmonized disclosure standards for retail loans.
 
@@ -11,9 +11,9 @@ Compliant with RBI harmonized disclosure standards for retail loans.
 - **Live Dynamic Computations:** Real-time updates on every keystroke or slider change.
 - **Direct Interest Rate Input:** Enter the annual interest rate directly ($R\%$) with an optional toggle for floating-rate **Benchmark ($B$) + Spread ($S$)** split.
 - **Indian Number Formatting:** Native Lakh & Crore formatting with verbal preview (`Intl.NumberFormat('en-IN')`).
-- **Exact Bank Rounding:** Implements integer rupee ceiling rounding matching HDFC Bank KFS sheets and RBI formulas.
+- **Exact Bank Rounding:** Implements integer rupee ceiling rounding matching Standard Retail Bank KFS sheets and RBI formulas.
 - **Amortisation Schedule:**
-  - Configurable row indexing (Start at `0` for HDFC Bank format, or Start at `1`).
+  - Configurable row indexing (Start at `0` for Standard Retail Bank format, or Start at `1`).
   - Columns: Instalment No., Due Date, Opening Balance, Principal, Interest, Instalment, Closing Balance.
   - Sticky table headers, pagination ($12$, $24$, $60$, or All rows), and jump-to-instalment search.
   - One-click CSV export (`.csv`).
@@ -62,4 +62,4 @@ Then visit [http://localhost:8080](http://localhost:8080).
 
 ## Disclaimer
 
-*Illustrative calculator, not an official bank document. Calculations strictly conform to HDFC Bank KFS formulas & RBI Master Directions. Final terms, charges, and amortization are subject to bank sanction and terms.*
+*Illustrative calculator, not an official bank document. Calculations strictly conform to Standard Retail Bank KFS formulas & RBI Master Directions. Final terms, charges, and amortization are subject to bank sanction and terms.*
